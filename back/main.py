@@ -1,18 +1,16 @@
-async def app(scope, receive, send):
-    assert scope['type'] == 'http'
+# correr < pip install fastapi uvicorn > para instalar las dependencias necesarias
+# Para correr el servidor, usa el siguiente comando: < uvicorn main:app --reload >
 
-    await send({
-        'type': 'http.response.start',
-        'status': 200,
-        'headers': [
-            (b'content-type', b'text/plain'),
-            (b'content-length', b'13'),
-        ],
-    })
-    await send({
-        'type': 'http.response.body',
-        'body': b'Hola mundo!!!',
-    })
-    
-# Para correr el servidor, usa el siguiente comando:
-# uvicorn main:app --reload
+from fastapi import FastAPI
+from algoritmos.knapsack import knapsack_exact, knapsack_greedy
+
+app = FastAPI()
+
+@app.get("/")
+async def hello_world():
+    return {"message": "Hello, World!"}
+
+# Aqui se agregan las rutas
+
+
+
