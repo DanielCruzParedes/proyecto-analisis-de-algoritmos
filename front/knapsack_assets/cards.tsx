@@ -136,7 +136,7 @@ export const cards: Card[] = [
     id: "bombardero",
     name: "Bombardero",
     use: 2,
-    elixir: 3,
+    elixir: 2,
     img: img("bombardero.png"),
   },
 
@@ -212,7 +212,7 @@ export const cards: Card[] = [
     id: "choza_de_barbaros",
     name: "Choza de Bárbaros",
     use: 0,
-    elixir: 7,
+    elixir: 6,
     img: img("choza_de_barbaros.png"),
   },
 
@@ -220,7 +220,7 @@ export const cards: Card[] = [
     id: "choza_de_duendes",
     name: "Choza de Duendes",
     use: 4,
-    elixir: 5,
+    elixir: 4,
     img: img("choza_de_duendes.png"),
   },
 
@@ -362,7 +362,7 @@ export const cards: Card[] = [
     id: "espiritu_de_fuego",
     name: "Espíritu de Fuego",
     use: 3,
-    elixir: 2,
+    elixir: 1,
     img: img("espiritu_de_fuego.png"),
   },
 
@@ -502,7 +502,7 @@ export const cards: Card[] = [
     img: img("guardias.png"),
   },
 
-  { id: "hielo", name: "Hielo", use: 3, elixir: 2, img: img("hielo.png") },
+  { id: "hielo", name: "Hielo", use: 3, elixir: 4, img: img("hielo.png") },
 
   {
     id: "horda_de_esbirros",
