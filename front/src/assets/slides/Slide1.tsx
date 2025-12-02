@@ -8,7 +8,7 @@ export default function Slide1() {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
         className="absolute inset-0 bg-cover bg-center z-0 filter brightness-90"
-        style={{ backgroundImage: "url(/src/assets/algoritmo1.jpg)" }}
+        style={{ backgroundImage: "url(/knapsack_assets/background_slide1.jpg)" }}
       />
 
       <div className="absolute inset-0 bg-linear-to-b from-black/80 via-black/60 to-black/90 z-10" />
