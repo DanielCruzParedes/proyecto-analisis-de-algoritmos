@@ -16,7 +16,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 class Card(BaseModel):
     name: str
     elixir: int      # weight
