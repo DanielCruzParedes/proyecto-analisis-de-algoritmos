@@ -624,7 +624,7 @@ export const cards: Card[] = [
     img: img("mini_pekka.png"),
   },
 
-  { id: "monje", name: "Monje", use: 2, elixir: 4, img: img("monje.png") },
+  { id: "monje", name: "Monje", use: 2, elixir: 5, img: img("monje.png") },
 
   {
     id: "montacarneros",
