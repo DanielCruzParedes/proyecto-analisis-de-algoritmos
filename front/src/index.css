@@ -1,1 +1,12 @@
+@font-face {
+  font-family: "clash";
+  src: url("/fonts/Clash_Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 @import "tailwindcss";
+
+.font-clash {
+  font-family: "clash", sans-serif;
+}

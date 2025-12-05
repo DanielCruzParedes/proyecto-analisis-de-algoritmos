@@ -40,14 +40,17 @@ export default function KnapsackVisual() {
   };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-linear-to-b from-purple-900 to-black">
+    <div className="w-full h-screen flex items-center justify-center bg-black">
+      <h1 className="font-clash text-5xl text-white">
+        Este texto usa la fuente Clash Royale
+      </h1>
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="bg-black/40 p-10 rounded-3xl shadow-2xl text-center w-[90%] max-w-md border border-purple-500/30 backdrop-blur-md"
       >
-        <h1 className="text-4xl font-extrabold text-purple-300 drop-shadow-lg mb-6">
+        <h1 className="text-4xl font-clash text-purple-300 drop-shadow-lg mb-6">
           Elixir Máximo
         </h1>
 
