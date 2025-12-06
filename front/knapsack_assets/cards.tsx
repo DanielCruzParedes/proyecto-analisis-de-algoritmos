@@ -356,7 +356,7 @@ export const cards: Card[] = [
     img: img("esbirros.png"),
   },
 
-  { id: "espejo", name: "Espejo", use: 2, elixir: 0, img: img("espejo.png") },
+  { id: "espejo", name: "Espejo", use: 2, elixir: 1, img: img("espejo.png") },
 
   {
     id: "espiritu_de_fuego",

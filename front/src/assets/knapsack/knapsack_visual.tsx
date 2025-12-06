@@ -6,6 +6,10 @@ import CardsGrid from "./CardsGrid.tsx";
 
 export default function KnapsackVisual() {
   const [elixir, setElixir] = useState<number | "">("");
+  const [resultado, setResultado] = useState<null | {
+    max_value: number;
+    cards: { name: string; value: number; weight: number }[];
+  }>(null);
 
   async function ejecutarKnapsack(maxElixir: number) {
     const res = await fetch("http://127.0.0.1:8000/knapsack01", {
@@ -26,7 +30,7 @@ export default function KnapsackVisual() {
     return data;
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (elixir === "" || elixir <= 0) return alert("Ingresa un número válido");
     alert("Elixir máximo: " + elixir);
     const sizeArrays = [];
@@ -37,8 +41,9 @@ export default function KnapsackVisual() {
       valueArrays.push(card.use);
       nameArrays.push(card.name);
     }
-    // Llamada del knapsack con el valor recibido
-    ejecutarKnapsack(elixir as number);
+
+    const data = await ejecutarKnapsack(elixir as number);
+    setResultado(data);
   };
 
   return (
@@ -101,6 +106,105 @@ export default function KnapsackVisual() {
           />
           <span style={{ position: "relative", zIndex: 1 }}>Confirmar</span>
         </motion.button>
+
+        {/* CARTAS USADAS PARA SACAR EL VALOR MAXIMO */}
+        {resultado && resultado.cards.length > 0 && (
+          <div className="grid grid-cols-4 gap-3 justify-items-center">
+            {resultado.cards.slice(0, 8).map((c, idx) => {
+              const cardInfo = cards.find((x) => x.name === c.name);
+              return (
+                <motion.div
+                  key={idx}
+                  whileHover={{ scale: 1.08 }}
+                  className="relative cursor-pointer w-20 h-28 bg-blue-600 rounded-xl shadow-xl p-1 flex flex-col items-center justify-between"
+                  style={{
+                    border: "3px solid #78b9ff",
+                    boxShadow: "0px 0px 10px #3da4ff",
+                  }}
+                >
+                  {/* COSTE DE ELIXIR */}
+                  <div
+                    className="absolute top-1 left-1 bg-purple-600 text-white font-extrabold px-2 py-1 rounded-xl font-clash shadow-xl text-xs"
+                    style={{ zIndex: 2 }}
+                  >
+                    {c.weight}
+                  </div>
+
+                  {/* IMAGEN */}
+                  {cardInfo ? (
+                    <img
+                      src={cardInfo.img}
+                      className="w-18 h-[85%] object-cover rounded-lg shadow-md mt-2"
+                      style={{ objectFit: "cover" }}
+                    />
+                  ) : (
+                    <div className="w-full h-[85%] bg-gray-700 rounded-lg mt-2 flex items-center justify-center">
+                      <span className="text-xs text-white">No Img</span>
+                    </div>
+                  )}
+                  {/* NOMBRE OCULTO */}
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* ---- SI HAY MÁS DE 8 CARTAS ---- */}
+        {resultado && resultado.cards.length > 8 && (
+          <div className="mt-6">
+            <h3 className="text-lg text-purple-300 mb-3 font-clash text-center">
+              Cartas adicionales encontradas:
+            </h3>
+
+            <div className="grid grid-cols-4 gap-2 justify-items-center">
+              {resultado.cards.slice(8).map((c, idx) => {
+                const cardInfo = cards.find((x) => x.name === c.name);
+                return (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ scale: 1.08 }}
+                    className="relative cursor-pointer w-16 h-22 bg-gray-700 rounded-lg shadow-md p-1 flex flex-col items-center justify-between"
+                    style={{
+                      border: "2px solid #78b9ff",
+                      boxShadow: "0px 0px 6px #3da4ff",
+                    }}
+                  >
+                    {/* COSTE DE ELIXIR */}
+                    <div
+                      className="absolute top-1 left-1 bg-purple-600 text-white font-extrabold px-2 py-1 rounded-xl font-clash shadow-xl text-xs"
+                      style={{ zIndex: 2 }}
+                    >
+                      {c.weight}
+                    </div>
+                    {cardInfo ? (
+                      <img
+                        src={cardInfo.img}
+                        className="w-full h-[85%] object-cover rounded-md mt-1"
+                        style={{ objectFit: "cover" }}
+                      />
+                    ) : (
+                      <div className="w-full h-[85%] bg-gray-600 rounded-md mt-1 flex items-center justify-center">
+                        <span className="text-xs text-white">No Img</span>
+                      </div>
+                    )}
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            <p className="mt-3 text-center font-clash text-yellow-300 text-sm">
+              ⚠️ Se encontraron más de 8 cartas. Elige las mejores del grupo.
+            </p>
+          </div>
+        )}
+
+        {/* ---- SI HAY MENOS DE 8 CARTAS ---- */}
+        {resultado && resultado.cards.length < 8 && (
+          <p className="mt-4 text-center font-clash text-yellow-300 text-sm">
+            ⚠️ El mazo tiene menos de 8 cartas. Se recomienda aumentar el elixir
+            máximo.
+          </p>
+        )}
       </motion.div>
     </div>
   );
