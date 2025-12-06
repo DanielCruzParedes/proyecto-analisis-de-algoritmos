@@ -3,7 +3,10 @@
 
 from fastapi import FastAPI
 from algoritmos.knapsack import knapsack_exact, knapsack_greedy
+from algoritmos.tsp import tspalgoritm
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from typing import List
 
 app = FastAPI()
 
@@ -20,6 +23,24 @@ async def hello_world():
     return {"message": "Hello, World!"}
 
 # Aqui se agregan las rutas
+
+class TSPRequest(BaseModel):
+    distance_matrix: List[List[float]]
+    num_cities: int
+    algorithm: str
+    user_distance: float = None
+
+@app.post("/api/tsp/solve")
+async def solve_tsp(request: TSPRequest):
+    try:
+        if request.algorithm == "tspalgoritm":
+            result = tspalgoritm(request.distance_matrix, request.num_cities, request.user_distance)
+        else:
+            return {"error": "Algoritmo no válido"}
+        
+        return result
+    except Exception as e:
+        return {"error": str(e)}
 
 
 

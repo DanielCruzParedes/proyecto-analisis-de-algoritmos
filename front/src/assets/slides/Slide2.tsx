@@ -26,7 +26,7 @@ export default function Slide2() {
           transition={{ duration: 1.2, type: "spring", stiffness: 100 }}
           className="mt-20 text-7xl text-white font-extrabold tracking-wide text-center"
         >
-          Titulo algoritmo 2
+          TSP Challenge
         </motion.h1>
 
         {/* Descripción */}
@@ -37,7 +37,15 @@ export default function Slide2() {
             transition={{ duration: 1.5, delay: 0.3 }}
             className="text-3xl max-w-3xl mt-12 leading-relaxed text-white drop-shadow-[0_0_12px_rgba(0,255,255,0.8)]"
           >
-            Descripcion del algoritmo 2
+            Problema del Agente Viajero
+          </motion.p>
+           <motion.p
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, delay: 0.3 }}
+            className="text-3xl max-w-3xl mt-12 leading-relaxed text-white drop-shadow-[0_0_12px_rgba(0,255,255,0.8)]"
+          >
+           Compara tu camino contra la maquina
           </motion.p>
 
           {/* Botón */}
@@ -50,7 +58,7 @@ export default function Slide2() {
               y: -4,
               boxShadow: "0 0 25px #0ff, 0 0 50px #0ff",
             }}
-            onClick={() => (window.location.href = "/knapsack")}
+            onClick={() => (window.location.href = "/tsp-game")}
             className="
               mt-14 px-16 py-5 text-2xl font-bold rounded-full 
               bg-linear-to-r from-cyan-500 to-blue-600
@@ -64,7 +72,7 @@ export default function Slide2() {
         </div>
       </div>
 
-      {/* Efecto adicional de partículas neon */}
+      {/* efectos macizos */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         initial={{ opacity: 0 }}
