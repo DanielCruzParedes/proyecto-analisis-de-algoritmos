@@ -2,6 +2,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { cards } from "../../../knapsack_assets/cards.tsx";
 
+import CardsGrid from "./CardsGrid.tsx";
+
 export default function KnapsackVisual() {
   const [elixir, setElixir] = useState<number | "">("");
 
@@ -40,10 +42,15 @@ export default function KnapsackVisual() {
   };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-black">
-      <h1 className="font-clash text-5xl text-white">
-        Este texto usa la fuente Clash Royale
-      </h1>
+    <div
+      className="w-full flex items-top justify-top bg-black"
+      style={{
+        backgroundImage: "url('/knapsack_assets/red_diamonds_background.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <CardsGrid />
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -54,7 +61,7 @@ export default function KnapsackVisual() {
           Elixir Máximo
         </h1>
 
-        <p className="text-gray-300 mb-6 text-lg">
+        <p className="font-clash text-gray-300 mb-6 text-lg">
           Ingresa el máximo de{" "}
           <span className="font-bold text-purple-400">elixir total</span> que
           deseas que tenga el mazo generado.
@@ -71,9 +78,25 @@ export default function KnapsackVisual() {
         {/* Boton de confirmar el elixir maximo */}
         <button
           onClick={handleSubmit}
-          className="mt-6 w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl shadow-xl transition-all"
+          className="w-63 h-33 mt-6 py-3 font-clash text-white text-2xl font-bold rounded-xl transition-all relative overflow-hidden"
+          style={{
+            border: "none",
+            position: "relative",
+          }}
         >
-          Confirmar
+          <span
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 0,
+              backgroundImage: "url('/knapsack_assets/button.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              borderRadius: "inherit",
+            }}
+          />
+          <span style={{ position: "relative", zIndex: 1 }}>Confirmar</span>
         </button>
       </motion.div>
     </div>
