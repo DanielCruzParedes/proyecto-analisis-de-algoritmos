@@ -32,7 +32,6 @@ export default function KnapsackVisual() {
 
   const handleSubmit = async () => {
     if (elixir === "" || elixir <= 0) return alert("Ingresa un número válido");
-    alert("Elixir máximo: " + elixir);
     const sizeArrays = [];
     const valueArrays = [];
     const nameArrays = [];
@@ -56,11 +55,16 @@ export default function KnapsackVisual() {
       }}
     >
       <CardsGrid />
+      <div
+        className="w-6 bg-linear-to-b from-[#d7c9c2] to-[#a58f86] shadow-[inset_0_4px_6px_rgba(255,255,255,0.4),inset_0_-4px_6px_rgba(0,0,0,0.25),0_0_20px_rgba(0,0,0,0.65)]
+    border-y-4 border-[#e8ded8] border-x-6"
+      ></div>
+
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="bg-black/40 p-10 rounded-3xl shadow-2xl text-center w-[90%] max-w-md border border-purple-500/30 backdrop-blur-md"
+        className="bg-black/40 p-10 shadow-2xl text-center w-[90%] max-w-md border border-purple-500/30 backdrop-blur-md"
       >
         <h1 className="text-4xl font-clash text-purple-300 drop-shadow-lg mb-6">
           Elixir Máximo
@@ -107,46 +111,74 @@ export default function KnapsackVisual() {
           <span style={{ position: "relative", zIndex: 1 }}>Confirmar</span>
         </motion.button>
 
-        {/* CARTAS USADAS PARA SACAR EL VALOR MAXIMO */}
-        {resultado && resultado.cards.length > 0 && (
-          <div className="grid grid-cols-4 gap-3 justify-items-center">
-            {resultado.cards.slice(0, 8).map((c, idx) => {
-              const cardInfo = cards.find((x) => x.name === c.name);
-              return (
-                <motion.div
-                  key={idx}
-                  whileHover={{ scale: 1.08 }}
-                  className="relative cursor-pointer w-20 h-28 bg-blue-600 rounded-xl shadow-xl p-1 flex flex-col items-center justify-between"
-                  style={{
-                    border: "3px solid #78b9ff",
-                    boxShadow: "0px 0px 10px #3da4ff",
-                  }}
-                >
-                  {/* COSTE DE ELIXIR */}
-                  <div
-                    className="absolute top-1 left-1 bg-purple-600 text-white font-extrabold px-2 py-1 rounded-xl font-clash shadow-xl text-xs"
-                    style={{ zIndex: 2 }}
-                  >
-                    {c.weight}
-                  </div>
-
-                  {/* IMAGEN */}
-                  {cardInfo ? (
-                    <img
-                      src={cardInfo.img}
-                      className="w-18 h-[85%] object-cover rounded-lg shadow-md mt-2"
-                      style={{ objectFit: "cover" }}
-                    />
-                  ) : (
-                    <div className="w-full h-[85%] bg-gray-700 rounded-lg mt-2 flex items-center justify-center">
-                      <span className="text-xs text-white">No Img</span>
-                    </div>
-                  )}
-                  {/* NOMBRE OCULTO */}
-                </motion.div>
-              );
-            })}
+        {resultado && (
+          <div className="mt-4 w-full flex justify-center">
+            <span className="text-purple-300 font-clash text-2xl bg-black/40 px-5 py-2 rounded-xl border border-purple-500/40 shadow-lg">
+              ⭐ Rating total del mazo: {resultado.max_value}
+            </span>
           </div>
+        )}
+
+        {/* TEXTO INFORMATIVO SOBRE LAS CARTAS */}
+        {resultado && resultado.cards.length > 0 && (
+          <>
+            <div className="w-full flex justify-center mb-2">
+              <span className="text-purple-300 font-clash text-sm text-center bg-black/30 rounded-xl px-4 py-2 border border-purple-400/40 shadow">
+                Puedes acceder a la información de las cartas desde la colección
+              </span>
+            </div>
+            <div className="grid grid-cols-4 gap-3 justify-items-center">
+              {resultado.cards.slice(0, 8).map((c, idx) => {
+                const cardInfo = cards.find((x) => x.name === c.name);
+                return (
+                  <div key={idx} className="flex flex-col items-center group">
+                    <motion.div
+                      whileHover={{ scale: 1.08 }}
+                      className="relative w-20 h-28 bg-blue-600 rounded-xl shadow-xl p-1 flex flex-col items-center justify-between"
+                      style={{
+                        border: "3px solid #78b9ff",
+                        boxShadow: "0px 0px 10px #3da4ff",
+                      }}
+                    >
+                      {/* COSTE DE ELIXIR */}
+                      <div
+                        className="absolute top-1 left-1 bg-purple-600 text-white font-extrabold px-2 py-1 rounded-xl font-clash shadow-xl text-xs"
+                        style={{ zIndex: 2 }}
+                      >
+                        {c.weight}
+                      </div>
+
+                      {/* IMAGEN */}
+                      {cardInfo ? (
+                        <img
+                          src={cardInfo.img}
+                          className="w-18 h-[85%] object-cover rounded-lg shadow-md mt-2"
+                          style={{ objectFit: "cover" }}
+                        />
+                      ) : (
+                        <div className="w-full h-[85%] bg-gray-700 rounded-lg mt-2 flex items-center justify-center">
+                          <span className="text-xs text-white">No Img</span>
+                        </div>
+                      )}
+                    </motion.div>
+                    <div className="relative w-full flex flex-col items-center">
+                      {/* Tooltip: nombre completo al hacer hover */}
+                      <span
+                        className="absolute -top-7 left-1/2 -translate-x-1/2 bg-black text-white text-xs font-clash px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none z-50 whitespace-nowrap transition-opacity duration-200"
+                        style={{
+                          maxWidth: "12rem",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {c.name}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
         )}
 
         {/* ---- SI HAY MÁS DE 8 CARTAS ---- */}
@@ -160,40 +192,54 @@ export default function KnapsackVisual() {
               {resultado.cards.slice(8).map((c, idx) => {
                 const cardInfo = cards.find((x) => x.name === c.name);
                 return (
-                  <motion.div
-                    key={idx}
-                    whileHover={{ scale: 1.08 }}
-                    className="relative cursor-pointer w-16 h-22 bg-gray-700 rounded-lg shadow-md p-1 flex flex-col items-center justify-between"
-                    style={{
-                      border: "2px solid #78b9ff",
-                      boxShadow: "0px 0px 6px #3da4ff",
-                    }}
-                  >
-                    {/* COSTE DE ELIXIR */}
-                    <div
-                      className="absolute top-1 left-1 bg-purple-600 text-white font-extrabold px-2 py-1 rounded-xl font-clash shadow-xl text-xs"
-                      style={{ zIndex: 2 }}
+                  <div key={idx} className="flex flex-col items-center group">
+                    <motion.div
+                      whileHover={{ scale: 1.08 }}
+                      className="relative cursor-pointer w-16 h-22 bg-gray-700 rounded-lg shadow-md p-1 flex flex-col items-center justify-between"
+                      style={{
+                        border: "2px solid #78b9ff",
+                        boxShadow: "0px 0px 6px #3da4ff",
+                      }}
                     >
-                      {c.weight}
-                    </div>
-                    {cardInfo ? (
-                      <img
-                        src={cardInfo.img}
-                        className="w-full h-[85%] object-cover rounded-md mt-1"
-                        style={{ objectFit: "cover" }}
-                      />
-                    ) : (
-                      <div className="w-full h-[85%] bg-gray-600 rounded-md mt-1 flex items-center justify-center">
-                        <span className="text-xs text-white">No Img</span>
+                      {/* COSTE DE ELIXIR */}
+                      <div
+                        className="absolute top-1 left-1 bg-purple-600 text-white font-extrabold px-2 py-1 rounded-xl font-clash shadow-xl text-xs"
+                        style={{ zIndex: 2 }}
+                      >
+                        {c.weight}
                       </div>
-                    )}
-                  </motion.div>
+                      {cardInfo ? (
+                        <img
+                          src={cardInfo.img}
+                          className="w-full h-[85%] object-cover rounded-md mt-1"
+                          style={{ objectFit: "cover" }}
+                        />
+                      ) : (
+                        <div className="w-full h-[85%] bg-gray-600 rounded-md mt-1 flex items-center justify-center">
+                          <span className="text-xs text-white">No Img</span>
+                        </div>
+                      )}
+                    </motion.div>
+                    <div className="relative w-full flex flex-col items-center">
+                      {/* Tooltip: nombre completo al hacer hover */}
+                      <span
+                        className="absolute -top-7 left-1/2 -translate-x-1/2 bg-black text-white text-xs font-clash px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none z-50 whitespace-nowrap transition-opacity duration-200"
+                        style={{
+                          maxWidth: "10rem",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {c.name}
+                      </span>
+                    </div>
+                  </div>
                 );
               })}
             </div>
-
             <p className="mt-3 text-center font-clash text-yellow-300 text-sm">
-              ⚠️ Se encontraron más de 8 cartas. Elige las mejores del grupo.
+              ⚠️ Se encontraron más de 8 cartas. Puedes elegir las que mejor te
+              parezcan.
             </p>
           </div>
         )}

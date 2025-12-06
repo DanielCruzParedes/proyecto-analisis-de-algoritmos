@@ -11,6 +11,22 @@ interface CardInfo {
 
 export default function CardsGrid() {
   const [selected, setSelected] = useState<CardInfo | null>(null);
+  const [filter, setFilter] = useState<string>("name");
+  const [search, setSearch] = useState<string>("");
+
+  // Ordenar y filtrar las cartas
+  const filteredCards = cards
+    .filter((card) => card.name.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => {
+      if (filter === "name") {
+        return a.name.localeCompare(b.name);
+      } else if (filter === "elixir") {
+        return a.elixir - b.elixir;
+      } else if (filter === "use") {
+        return b.use - a.use;
+      }
+      return 0;
+    });
 
   return (
     <div
@@ -43,9 +59,55 @@ export default function CardsGrid() {
         </h1>
       </div>
 
+      {/* FILTROS Y BUSCADOR */}
+      <div className="flex flex-col md:flex-row items-center gap-4 mb-8 w-full max-w-3xl justify-center">
+        <div className="text-white font-clash text-lg md:mr-4">
+          Ordenar por:
+        </div>
+        <div className="flex gap-2">
+          <button
+            className={`px-4 py-2 rounded-xl font-clash font-bold shadow-lg transition-all ${
+              filter === "name"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+            onClick={() => setFilter("name")}
+          >
+            Nombre
+          </button>
+          <button
+            className={`px-4 py-2 rounded-xl font-clash font-bold shadow-lg transition-all ${
+              filter === "elixir"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+            onClick={() => setFilter("elixir")}
+          >
+            Elixir
+          </button>
+          <button
+            className={`px-4 py-2 rounded-xl font-clash font-bold shadow-lg transition-all ${
+              filter === "use"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+            onClick={() => setFilter("use")}
+          >
+            % Uso
+          </button>
+        </div>
+        <input
+          type="text"
+          placeholder="Buscar carta..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="px-4 py-2 rounded-xl font-clash shadow-lg border-2 border-blue-400 focus:outline-none focus:border-blue-600 w-full md:w-64"
+        />
+      </div>
+
       {/* GRID DE CARTAS */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-8 gap-2">
-        {cards.map((card) => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-2">
+        {filteredCards.map((card) => (
           <motion.div
             key={card.id}
             whileHover={{ scale: 1.08 }}
