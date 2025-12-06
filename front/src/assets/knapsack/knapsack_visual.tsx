@@ -72,12 +72,15 @@ export default function KnapsackVisual() {
           value={elixir}
           onChange={(e) => setElixir(Number(e.target.value))}
           placeholder="Ejemplo: 20"
-          className="w-full text-center px-4 py-3 bg-black/60 border border-purple-500/40 rounded-xl text-white text-lg focus:outline-none focus:border-purple-400 shadow-lg"
+          className="w-full text-center px-4 py-3 font-clash bg-black/60 border border-purple-500/40 rounded-xl text-white text-lg focus:outline-none focus:border-purple-400 shadow-lg"
         />
 
         {/* Boton de confirmar el elixir maximo */}
-        <button
+        <motion.button
           onClick={handleSubmit}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.96, rotate: -2 }}
+          transition={{ type: "spring", stiffness: 400, damping: 20 }}
           className="w-63 h-33 mt-6 py-3 font-clash text-white text-2xl font-bold rounded-xl transition-all relative overflow-hidden"
           style={{
             border: "none",
@@ -97,7 +100,7 @@ export default function KnapsackVisual() {
             }}
           />
           <span style={{ position: "relative", zIndex: 1 }}>Confirmar</span>
-        </button>
+        </motion.button>
       </motion.div>
     </div>
   );

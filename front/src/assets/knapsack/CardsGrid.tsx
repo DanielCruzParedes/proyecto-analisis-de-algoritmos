@@ -21,9 +21,27 @@ export default function CardsGrid() {
         backgroundPosition: "center",
       }}
     >
-      <h1 className="text-5xl font-clash text-purple-300 drop-shadow-lg mb-8">
-        Visualización de Cartas
-      </h1>
+      <div
+        className="relative mb-8 px-8 py-4 rounded-2xl flex items-center justify-center"
+        style={{
+          height: "120px",
+          width: "100%",
+          maxWidth: "500px",
+        }}
+      >
+        <img
+          src="/knapsack_assets/stone_title_background.png"
+          alt="Colección background"
+          className="absolute inset-0 w-full h-full object-cover rounded-2xl"
+          style={{ zIndex: 0 }}
+        />
+        <h1
+          className="relative text-6xl font-clash text-white drop-shadow-lg"
+          style={{ zIndex: 1 }}
+        >
+          Colección
+        </h1>
+      </div>
 
       {/* GRID DE CARTAS */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-8 gap-2">
