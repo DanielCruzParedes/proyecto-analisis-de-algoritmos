@@ -1,8 +1,18 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { cards } from "../../../knapsack_assets/cards.tsx";
-
 import CardsGrid from "./CardsGrid.tsx";
+
+const ALGORITHMS = [
+  {
+    key: "knapsack01",
+    label: "Algoritmo de la Comunidad",
+  },
+  {
+    key: "greedy_knapsack",
+    label: "Algoritmo Aproximado (Propio)",
+  },
+];
 
 export default function KnapsackVisual() {
   const [elixir, setElixir] = useState<number | "">("");
@@ -10,9 +20,10 @@ export default function KnapsackVisual() {
     max_value: number;
     cards: { name: string; value: number; weight: number }[];
   }>(null);
+  const [algoritmo, setAlgoritmo] = useState<string>(ALGORITHMS[0].key);
 
-  async function ejecutarKnapsack(maxElixir: number) {
-    const res = await fetch("http://127.0.0.1:8000/knapsack01", {
+  async function ejecutarAlgoritmo(maxElixir: number, algoritmo: string) {
+    const res = await fetch(`http://127.0.0.1:8000/${algoritmo}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -24,7 +35,6 @@ export default function KnapsackVisual() {
         })),
       }),
     });
-
     const data = await res.json();
     console.log("Resultado del backend:", data);
     return data;
@@ -32,16 +42,7 @@ export default function KnapsackVisual() {
 
   const handleSubmit = async () => {
     if (elixir === "" || elixir <= 0) return alert("Ingresa un número válido");
-    const sizeArrays = [];
-    const valueArrays = [];
-    const nameArrays = [];
-    for (const card of cards) {
-      sizeArrays.push(card.elixir);
-      valueArrays.push(card.use);
-      nameArrays.push(card.name);
-    }
-
-    const data = await ejecutarKnapsack(elixir as number);
+    const data = await ejecutarAlgoritmo(elixir as number, algoritmo);
     setResultado(data);
   };
 
@@ -55,10 +56,7 @@ export default function KnapsackVisual() {
       }}
     >
       <CardsGrid />
-      <div
-        className="w-6 bg-linear-to-b from-[#d7c9c2] to-[#a58f86] shadow-[inset_0_4px_6px_rgba(255,255,255,0.4),inset_0_-4px_6px_rgba(0,0,0,0.25),0_0_20px_rgba(0,0,0,0.65)]
-    border-y-4 border-[#e8ded8] border-x-6"
-      ></div>
+      <div className="w-6 bg-linear-to-b from-[#d7c9c2] to-[#a58f86] shadow-[inset_0_4px_6px_rgba(255,255,255,0.4),inset_0_-4px_6px_rgba(0,0,0,0.25),0_0_20px_rgba(0,0,0,0.65)] border-y-4 border-[#e8ded8] border-x-6"></div>
 
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -66,6 +64,27 @@ export default function KnapsackVisual() {
         transition={{ duration: 0.6 }}
         className="bg-black/40 p-10 shadow-2xl text-center w-[90%] max-w-md border border-purple-500/30 backdrop-blur-md"
       >
+        {/* Selector de algoritmo */}
+        <div className="mb-6">
+          <label className="block text-lg font-clash text-purple-300 mb-2">
+            Selecciona el algoritmo a usar:
+          </label>
+          <select
+            value={algoritmo}
+            onChange={(e) => {
+              setAlgoritmo(e.target.value);
+              setResultado(null);
+            }}
+            className="w-full px-4 py-2 rounded-xl bg-black/60 border border-purple-500/40 text-white font-clash text-lg focus:outline-none focus:border-purple-400 shadow-lg"
+          >
+            {ALGORITHMS.map((opt) => (
+              <option key={opt.key} value={opt.key}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <h1 className="text-4xl font-clash text-purple-300 drop-shadow-lg mb-6">
           Elixir Máximo
         </h1>
