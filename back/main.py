@@ -5,6 +5,8 @@ from typing import List
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+import timeit 
+
 from algoritmos.knapsack import knapsack01 as knapsack01, greedy_knapsack
 
 app = FastAPI()
@@ -37,7 +39,10 @@ async def run_knapsack01(req: KnapsackRequest):
     names = [c.name for c in req.cards]
     values = [c.use for c in req.cards]
     weights = [c.elixir for c in req.cards]
+    start = timeit.default_timer()
     result = knapsack01(req.max_elixir, values, weights, names)
+    end = timeit.default_timer()
+    result["execution_time"] = end - start
     return result
 
 
@@ -47,7 +52,10 @@ async def run_greedy_knapsack(req: KnapsackRequest):
     names = [c.name for c in req.cards]
     values = [c.use for c in req.cards]
     weights = [c.elixir for c in req.cards]
+    start = timeit.default_timer()
     result = greedy_knapsack(req.max_elixir, values, weights, names)
+    end = timeit.default_timer()
+    result["execution_time"] = end - start
     return result
 
 
