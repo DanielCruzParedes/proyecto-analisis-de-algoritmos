@@ -53,24 +53,24 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 max-w-5xl w-full border border-cyan-500/30"
+        className="relative z-10 bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-12 max-w-7xl w-full border border-cyan-500/30 min-h-[600px]"
       >
    
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-center mb-8"
+          className="text-center mb-12"
         >
-          <h1 className="text-5xl font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent mb-2 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] tracking-wider" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-            TSP CHALLENGE
+          <h1 className="text-5xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent mb-2 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+            TSP Challenge
           </h1>
-          <p className="text-cyan-300 text-lg font-semibold tracking-wide" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+          <p className="text-cyan-300 text-lg font-medium" style={{ fontFamily: "'Press Start 2P', cursive" }}>
             Configura tu partida
           </p>
         </motion.div>
 
-        <div className="space-y-8">
+        <div className="space-y-12">
           <div className="flex flex-row items-end gap-8">
 
             <motion.div
@@ -79,7 +79,7 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
               transition={{ delay: 0.3 }}
               className="flex-1 space-y-3"
             >
-              <label className="block text-cyan-300 font-bold text-lg mb-3 tracking-wide" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+              <label className="block text-cyan-300 font-semibold text-lg mb-3" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '10px' }}>
                 Cantidad de Ciudades
               </label>
               <div className="relative">
@@ -100,9 +100,9 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
                 </div>
               </div>
               <div className="text-center">
-              <span className="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-black text-3xl px-6 py-3 rounded-xl shadow-lg shadow-cyan-500/50 min-w-[80px] tracking-wider" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-                {numCities}
-              </span>
+                <span className="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold text-3xl px-6 py-3 rounded-xl shadow-lg shadow-cyan-500/50 min-w-[80px]" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+                  {numCities}
+                </span>
               </div>
             </motion.div>
 
@@ -113,7 +113,7 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
               transition={{ delay: 0.4 }}
               className="flex-1 space-y-3"
             >
-              <label className="block text-cyan-300 font-bold text-lg mb-3 tracking-wide" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+              <label className="block text-cyan-300 font-semibold text-lg mb-3" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '10px' }}>
                 Algoritmo
               </label>
               <div className="grid grid-cols-2 gap-3">
@@ -125,8 +125,8 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
                       : 'border-slate-600 bg-slate-700/50 hover:border-slate-500'
                   }`}
                 >
-                <div className="text-white font-bold text-sm tracking-wide" style={{ fontFamily: "'Orbitron', sans-serif" }}>Implementación Propia</div>
-                <div className="text-cyan-300 text-xs mt-1 tracking-wide" style={{ fontFamily: "'Orbitron', sans-serif" }}>Disponible</div>
+                  <div className="text-white font-bold text-sm" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Implementacion Propia</div>
+                  <div className="text-cyan-300 text-xs mt-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '7px' }}>Disponible</div>
                 </button>
                 <button
                   onClick={() => {
@@ -137,11 +137,11 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
                   disabled
                   className="p-4 rounded-xl border-2 border-slate-600 bg-slate-700/30 opacity-60 cursor-not-allowed relative"
                 >
-                <div className="text-slate-400 font-bold text-sm tracking-wide" style={{ fontFamily: "'Orbitron', sans-serif" }}>Aceptado por la Comunidad</div>
-                <div className="text-slate-500 text-xs mt-1 tracking-wide" style={{ fontFamily: "'Orbitron', sans-serif" }}>Próximamente</div>
-                <div className="absolute top-2 right-2 bg-slate-600 text-slate-400 text-xs px-2 py-1 rounded tracking-wide" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-                  Bloqueado
-                </div>
+                  <div className="text-slate-400 font-bold text-sm" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Aceptado por la Comunidad</div>
+                  <div className="text-slate-500 text-xs mt-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '7px' }}>Proximamente</div>
+                  <div className="absolute top-2 right-2 bg-slate-600 text-slate-400 text-xs px-2 py-1 rounded" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '7px' }}>
+                    Bloqueado
+                  </div>
                 </button>
               </div>
             </motion.div>
@@ -151,17 +151,17 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="flex justify-center"
+            className="flex justify-center mt-16"
           >
             <motion.button
               onClick={handleStart}
               disabled={numCities < 4 || numCities > 15}
               whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(6, 182, 212, 0.6)" }}
               whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 hover:from-cyan-400 hover:via-blue-400 hover:to-purple-400 disabled:from-slate-600 disabled:to-slate-700 disabled:cursor-not-allowed text-white font-bold py-4 px-12 rounded-xl text-xl shadow-lg shadow-cyan-500/50 transition-all duration-300 relative overflow-hidden whitespace-nowrap"
+              className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 hover:from-cyan-400 hover:via-blue-400 hover:to-purple-400 disabled:from-slate-600 disabled:to-slate-700 disabled:cursor-not-allowed text-white font-bold py-6 px-16 rounded-xl text-xl shadow-lg shadow-cyan-500/50 transition-all duration-300 relative overflow-hidden whitespace-nowrap"
             >
-              <span className="relative z-10 tracking-widest font-black" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-                INICIAR JUEGO
+              <span className="relative z-10" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '16px' }}>
+                Iniciar Juego
               </span>
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
