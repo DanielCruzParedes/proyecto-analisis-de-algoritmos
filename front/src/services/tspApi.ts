@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:8000';
 export interface TSPRequest {
   distance_matrix: number[][];
   num_cities: number;
-  algorithm: 'tspalgoritm';
+  algorithm: 'tspalgoritm' | 'accepted';
   user_distance?: number;
 }
 

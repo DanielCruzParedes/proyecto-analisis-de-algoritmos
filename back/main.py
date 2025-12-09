@@ -3,7 +3,7 @@
 
 from fastapi import FastAPI
 from algoritmos.knapsack import knapsack_exact, knapsack_greedy
-from algoritmos.tsp import tspalgoritm
+from algoritmos.tsp import tspalgoritm, held_karp_tsp
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
@@ -35,6 +35,8 @@ async def solve_tsp(request: TSPRequest):
     try:
         if request.algorithm == "tspalgoritm":
             result = tspalgoritm(request.distance_matrix, request.num_cities, request.user_distance)
+        elif request.algorithm == "accepted" or request.algorithm == "held_karp":
+            result = held_karp_tsp(request.distance_matrix, request.num_cities, request.user_distance)
         else:
             return {"error": "Algoritmo no válido"}
         

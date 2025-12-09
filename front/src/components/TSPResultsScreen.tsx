@@ -35,6 +35,13 @@ const cityIcons: { [key: number]: string } = {
   14: icon15,
 };
 
+const getCityIcon = (cityIndex: number): string => {
+  if (cityIndex < 15) {
+    return cityIcons[cityIndex];
+  }
+  return cityIcons[cityIndex - 15];
+};
+
 interface TSPResultsScreenProps {
   userTour: number[];
   userDistance: number;
@@ -72,23 +79,28 @@ export default function TSPResultsScreen({
   React.useEffect(() => {
     const loadImages = async () => {
       const images: { [key: number]: HTMLImageElement } = {};
-      const loadPromises = Object.keys(cityIcons).map((key) => {
-        return new Promise<void>((resolve) => {
+      const maxCities = Math.max(cities.length, 20);
+      const loadPromises: Promise<void>[] = [];
+      
+      for (let i = 0; i < maxCities; i++) {
+        const iconSrc = getCityIcon(i);
+        const promise = new Promise<void>((resolve) => {
           const img = new Image();
-          const index = parseInt(key);
           img.onload = () => {
-            images[index] = img;
+            images[i] = img;
             resolve();
           };
           img.onerror = () => resolve();
-          img.src = cityIcons[index];
+          img.src = iconSrc;
         });
-      });
+        loadPromises.push(promise);
+      }
+      
       await Promise.all(loadPromises);
       setLoadedImages(images);
     };
     loadImages();
-  }, []);
+  }, [cities.length]);
 
   React.useEffect(() => {
     drawResults();
@@ -209,9 +221,26 @@ export default function TSPResultsScreen({
               </h2>
               <div>
                 <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Ruta:</p>
-                <p className="text-sm font-mono text-slate-300 break-all bg-slate-900/50 p-2 rounded" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '7px' }}>
-                  [{userTour.join(' → ')}]
-                </p>
+                <div className="flex flex-wrap items-center gap-2 bg-slate-900/50 p-2 rounded">
+                  <span className="text-slate-300">[</span>
+                  {userTour.map((cityIndex, idx) => (
+                    <React.Fragment key={idx}>
+                      {loadedImages[cityIndex] ? (
+                        <img 
+                          src={getCityIcon(cityIndex)} 
+                          alt={`Ciudad ${cityIndex}`}
+                          className="w-6 h-6 object-contain"
+                        />
+                      ) : (
+                        <span className="text-slate-300">{cityIndex}</span>
+                      )}
+                      {idx < userTour.length - 1 && (
+                        <span className="text-cyan-400">→</span>
+                      )}
+                    </React.Fragment>
+                  ))}
+                  <span className="text-slate-300">]</span>
+                </div>
               </div>
               <div>
                 <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Distancia:</p>
@@ -223,13 +252,30 @@ export default function TSPResultsScreen({
 
             <div className="border-2 border-green-500/30 rounded-xl p-4 space-y-4 bg-slate-900/50">
               <h2 className="text-green-300 font-semibold mb-2" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '12px' }}>
-                Solucion Optima
+                {algorithm === 'accepted' ? 'Held-Karp Algorithm' : 'Solucion Optima'}
               </h2>
               <div>
                 <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Ruta:</p>
-                <p className="text-sm font-mono text-slate-300 break-all bg-slate-900/50 p-2 rounded" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '7px' }}>
-                  [{optimalTour.join(' → ')}]
-                </p>
+                <div className="flex flex-wrap items-center gap-2 bg-slate-900/50 p-2 rounded">
+                  <span className="text-slate-300">[</span>
+                  {optimalTour.map((cityIndex, idx) => (
+                    <React.Fragment key={idx}>
+                      {loadedImages[cityIndex] ? (
+                        <img 
+                          src={getCityIcon(cityIndex)} 
+                          alt={`Ciudad ${cityIndex}`}
+                          className="w-6 h-6 object-contain"
+                        />
+                      ) : (
+                        <span className="text-slate-300">{cityIndex}</span>
+                      )}
+                      {idx < optimalTour.length - 1 && (
+                        <span className="text-green-400">→</span>
+                      )}
+                    </React.Fragment>
+                  ))}
+                  <span className="text-slate-300">]</span>
+                </div>
               </div>
               <div>
                 <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Distancia:</p>
@@ -291,11 +337,11 @@ export default function TSPResultsScreen({
             <div className="mb-4 text-xs text-slate-300 space-y-2" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>
               <p>
                 <span className="inline-block w-4 h-4 bg-cyan-500 mr-2 rounded"></span>
-                Tu ruta (cyan)
+                Tu ruta
               </p>
               <p>
                 <span className="inline-block w-4 h-4 bg-green-500 mr-2 rounded"></span>
-                Ruta óptima (verde)
+                Ruta optima
               </p>
             </div>
             <canvas

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import type { Point } from '../utils/tspDistance';
 import { calculateTourDistance } from '../utils/tspDistance';
@@ -36,6 +37,13 @@ const cityIcons: { [key: number]: string } = {
   14: icon15,
 };
 
+const getCityIcon = (cityIndex: number): string => {
+  if (cityIndex < 15) {
+    return cityIcons[cityIndex];
+  }
+  return cityIcons[cityIndex - 15];
+};
+
 interface TSPGameScreenProps {
   numCities: number;
   algorithm: string;
@@ -64,23 +72,28 @@ export default function TSPGameScreen({
   useEffect(() => {
     const loadImages = async () => {
       const images: { [key: number]: HTMLImageElement } = {};
-      const loadPromises = Object.keys(cityIcons).map((key) => {
-        return new Promise<void>((resolve) => {
+      const maxCities = Math.max(numCities, 20);
+      const loadPromises: Promise<void>[] = [];
+      
+      for (let i = 0; i < maxCities; i++) {
+        const iconSrc = getCityIcon(i);
+        const promise = new Promise<void>((resolve) => {
           const img = new Image();
-          const index = parseInt(key);
           img.onload = () => {
-            images[index] = img;
+            images[i] = img;
             resolve();
           };
           img.onerror = () => resolve();
-          img.src = cityIcons[index];
+          img.src = iconSrc;
         });
-      });
+        loadPromises.push(promise);
+      }
+      
       await Promise.all(loadPromises);
       setLoadedImages(images);
     };
     loadImages();
-  }, []);
+  }, [numCities]);
 
   useEffect(() => {
     const updateCanvasSize = () => {
@@ -256,11 +269,6 @@ export default function TSPGameScreen({
     setCurrentDistance(0);
   };
 
-  const tourString =
-    userTour.length > 0
-      ? `[${userTour.join(' → ')}${userTour.length === numCities ? ' → ' + userTour[0] : ''}]`
-      : '[]';
-
   return (
     <div className="h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex overflow-hidden relative">
       {/* Efectos de fondo animados */}
@@ -321,9 +329,46 @@ export default function TSPGameScreen({
           <h3 className="text-cyan-300 font-semibold mb-2" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '10px' }}>
             Ruta Actual
           </h3>
-          <p className="text-sm text-slate-300 break-all font-mono bg-slate-900/50 p-2 rounded">
-            {tourString}
-          </p>
+          <div className="flex flex-wrap items-center gap-2 bg-slate-900/50 p-2 rounded min-h-[60px]">
+            {userTour.length > 0 ? (
+              <>
+                <span className="text-slate-300">[</span>
+                {userTour.map((cityIndex, idx) => (
+                  <React.Fragment key={idx}>
+                    {loadedImages[cityIndex] ? (
+                      <img 
+                        src={getCityIcon(cityIndex)} 
+                        alt={`Ciudad ${cityIndex}`}
+                        className="w-6 h-6 object-contain"
+                      />
+                    ) : (
+                      <span className="text-slate-300">{cityIndex}</span>
+                    )}
+                    {idx < userTour.length - 1 && (
+                      <span className="text-cyan-400">→</span>
+                    )}
+                  </React.Fragment>
+                ))}
+                {userTour.length === numCities && userTour.length > 0 && (
+                  <>
+                    <span className="text-cyan-400">→</span>
+                    {loadedImages[userTour[0]] ? (
+                      <img 
+                        src={getCityIcon(userTour[0])} 
+                        alt={`Ciudad ${userTour[0]}`}
+                        className="w-6 h-6 object-contain"
+                      />
+                    ) : (
+                      <span className="text-slate-300">{userTour[0]}</span>
+                    )}
+                  </>
+                )}
+                <span className="text-slate-300">]</span>
+              </>
+            ) : (
+              <span className="text-slate-300">[]</span>
+            )}
+          </div>
         </div>
 
         <div>

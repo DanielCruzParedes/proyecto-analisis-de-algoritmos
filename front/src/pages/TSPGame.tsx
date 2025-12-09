@@ -13,7 +13,7 @@ type GameState = 'config' | 'playing' | 'results';
 export default function TSPGame() {
   const [gameState, setGameState] = useState<GameState>('config');
   const [numCities, setNumCities] = useState(5);
-  const [algorithm, setAlgorithm] = useState('tspalgoritm');
+  const [algorithm, setAlgorithm] = useState<'tspalgoritm' | 'accepted'>('tspalgoritm');
   const [cities, setCities] = useState<Point[]>([]);
   const [distanceMatrix, setDistanceMatrix] = useState<number[][]>([]);
   const [userTour, setUserTour] = useState<number[]>([]);
@@ -21,7 +21,7 @@ export default function TSPGame() {
   const [optimalResult, setOptimalResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleStart = (citiesCount: number, algo: string) => {
+  const handleStart = (citiesCount: number, algo: 'tspalgoritm' | 'accepted') => {
     setNumCities(citiesCount);
     setAlgorithm(algo);
     
@@ -61,18 +61,13 @@ export default function TSPGame() {
     setUserTour(tour);
     setUserDistance(finalDistance);
     
-    if (algorithm === 'accepted') {
-      alert('Aceptado por la Comunidad aun no esta disponible');
-      return;
-    }
-    
     setLoading(true);
 
     try {
       const result = await solveTSP({
         distance_matrix: distanceMatrix,
         num_cities: numCities,
-        algorithm: algorithm as 'tspalgoritm',
+        algorithm: algorithm,
         user_distance: finalDistance,
       });
       setOptimalResult(result);
