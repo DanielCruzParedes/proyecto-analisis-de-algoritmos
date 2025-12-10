@@ -7,7 +7,9 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import timeit 
 
+
 from algoritmos.knapsack import knapsack01 as knapsack01, greedy_knapsack
+from algoritmos.subset_sum import isSubsetSum
 
 app = FastAPI()
 
@@ -57,6 +59,18 @@ async def run_greedy_knapsack(req: KnapsackRequest):
     end = timeit.default_timer()
     result["execution_time"] = end - start
     return result
+
+# Ruta para el algoritmo subset_sum
+class SubsetSumRequest(BaseModel):
+    arr: list[int]
+    sum: int
+
+@app.post("/subset_sum")
+async def run_subset_sum(req: SubsetSumRequest):
+    start = timeit.default_timer()
+    result = isSubsetSum(req.arr, req.sum)
+    end = timeit.default_timer()
+    return {"result": result, "execution_time": end - start}
 
 
 

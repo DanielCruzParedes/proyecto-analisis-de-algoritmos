@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export default function Slide3() {
+  const navigate = useNavigate();
   return (
     <div className="absolute inset-0 overflow-hidden">
       <motion.div
@@ -8,7 +10,7 @@ export default function Slide3() {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
         className="absolute inset-0 bg-cover bg-center z-0 filter brightness-90"
-        style={{ backgroundImage: "url(/img/sat-bg.jpg)" }}
+        style={{ backgroundImage: "url(/subset_assets/slide3_background.jpg)" }}
       />
 
       <div className="absolute inset-0 bg-linear-to-b from-black/80 via-black/60 to-black/90 z-10" />
@@ -26,7 +28,7 @@ export default function Slide3() {
           transition={{ duration: 1.2, type: "spring", stiffness: 100 }}
           className="mt-20 text-7xl text-white font-extrabold tracking-wide text-center"
         >
-          Titulo algoritmo 3
+          Subset Dungeon
         </motion.h1>
 
         {/* Descripción */}
@@ -50,7 +52,7 @@ export default function Slide3() {
               y: -4,
               boxShadow: "0 0 25px #0ff, 0 0 50px #0ff",
             }}
-            onClick={() => (window.location.href = "/knapsack")}
+            onClick={() => navigate("/subset")}
             className="
               mt-14 px-16 py-5 text-2xl font-bold rounded-full 
               bg-linear-to-r from-cyan-500 to-blue-600
