@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import fondo from "../assets_TSP/fondo.jpg";
 
 export default function Slide2() {
   return (
@@ -8,7 +9,7 @@ export default function Slide2() {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
         className="absolute inset-0 bg-cover bg-center z-0 filter brightness-90"
-        style={{ backgroundImage: "url(/img/tsp-bg.jpg)" }}
+        style={{ backgroundImage: `url(${fondo})` }}
       />
 
       <div className="absolute inset-0 bg-linear-to-b from-black/80 via-black/60 to-black/90 z-10" />
