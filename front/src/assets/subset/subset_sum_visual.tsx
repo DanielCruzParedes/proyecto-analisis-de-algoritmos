@@ -7,15 +7,20 @@ export default function SubsetSumRPG() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<null | {
     result: boolean;
-    subset: number[];
+    subset: string[]; 
     execution_time: number;
   }>(null);
 
+  const inputsDisabled = loading || !!result;
+
+  // -----------------------------------
+  // Ejecutar algoritmo del backend
+  // -----------------------------------
   async function ejecutarSubsetSum() {
     if (!arr || target === "" || target < 0)
       return alert("Completa los campos correctamente.");
 
-    const numbers = arr.split(",").map((n) => Number(n.trim()));
+    const numberObjects = numbers.map((n) => n.value);
 
     setLoading(true);
     setResult(null);
@@ -24,29 +29,41 @@ export default function SubsetSumRPG() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        arr: numbers,
+        arr: numberObjects,
         sum: Number(target),
       }),
     });
 
     const data = await res.json();
 
-    // --- reconstrucción del subconjunto  ---
-    // No viene del backend, lo calculamos nosotros mismo
-    const subset = obtenerSubconjunto(numbers, Number(target));
+    // reconstrucción usando DP
+    const subsetValues = obtenerSubconjunto(numberObjects, Number(target));
+
+    // convertir valores a IDs únicos
+    const subsetIds: string[] = [];
+    const usedIndexes = new Set<number>();
+
+    subsetValues.forEach((val) => {
+      const index = numbers.findIndex(
+        (n, i) => n.value === val && !usedIndexes.has(i)
+      );
+      if (index !== -1) {
+        subsetIds.push(numbers[index].id);
+        usedIndexes.add(index);
+      }
+    });
 
     setResult({
       ...data,
-      subset: subset,
+      subset: subsetIds,
     });
 
     setLoading(false);
   }
 
-  /**
-   * Reconstrucción del subconjunto ganador usando DP bottom-up.
-   * (NO afecta el backend, solo sirve para visualización)
-   */
+  // -----------------------------------
+  // DP para reconstrucción del subset (visual)
+  // -----------------------------------
   function obtenerSubconjunto(arr: number[], sum: number): number[] {
     const n = arr.length;
     const dp = Array(n + 1)
@@ -62,7 +79,6 @@ export default function SubsetSumRPG() {
       }
     }
 
-    // reconstruir solución
     if (!dp[n][sum]) return [];
 
     const subset = [];
@@ -80,7 +96,11 @@ export default function SubsetSumRPG() {
     return subset.reverse();
   }
 
-  const numbers = arr ? arr.split(",").map((x) => Number(x.trim())) : [];
+  const numbers =
+    arr?.split(",").map((x, i) => ({
+      id: `item_${i}_${x.trim()}`,
+      value: Number(x.trim()),
+    })) || [];
 
   return (
     <div
@@ -89,25 +109,25 @@ export default function SubsetSumRPG() {
         backgroundImage: "url('/subset_assets/dungeon_bg.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundAttachment: "fixed",
         imageRendering: "pixelated",
       }}
     >
       {/* Título */}
-      <h1 className="text-3xl font-rpg drop-shadow-lg mb-6 text-white-300">
-        Encuentra la combinación de cofres que suma el tesoro objetivo
+      <h1 className="text-4xl font-rpg drop-shadow-lg mb-8 text-yellow-300">
+        🏰 Cálculo de Subset Sum — Edición RPG 🔮
       </h1>
 
       {/* Entrada de datos */}
       <div className="bg-black/40 p-6 rounded-3xl border border-yellow-600/50 backdrop-blur-lg shadow-xl max-w-lg w-full mb-6">
-        <label className="block mb-2 font-rpg">
-           Oro en cada cofre (números):
-        </label>
+        <label className="block mb-2 font-rpg">Oro en cada cofre:</label>
         <input
           type="text"
           className="w-full px-4 py-2 rounded-xl bg-black/50 border border-yellow-500 text-white font-rpg mb-4"
           placeholder="Ej: 10, 7, 15, 3, 12"
           value={arr}
           onChange={(e) => setArr(e.target.value)}
+          disabled={inputsDisabled}
         />
 
         <label className="block mb-2 font-rpg">Objetivo de oro:</label>
@@ -117,17 +137,20 @@ export default function SubsetSumRPG() {
           placeholder="Ej: 25"
           value={target}
           onChange={(e) => setTarget(Number(e.target.value))}
+          disabled={inputsDisabled}
         />
 
-        {/* Botón */}
-        <motion.button
-          onClick={ejecutarSubsetSum}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="mt-4 w-full py-3 bg-yellow-600 rounded-xl font-rpg text-xl shadow-lg border border-yellow-300"
-        >
-          🪄 Buscar Tesoro
-        </motion.button>
+        {!result && (
+          <motion.button
+            onClick={ejecutarSubsetSum}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="mt-4 w-full py-3 bg-yellow-600 rounded-xl font-rpg text-xl shadow-lg border border-yellow-300"
+            disabled={inputsDisabled}
+          >
+            Buscar Tesoro
+          </motion.button>
+        )}
       </div>
 
       {/* Pantalla de carga */}
@@ -145,43 +168,65 @@ export default function SubsetSumRPG() {
         </motion.div>
       )}
 
-      {/* Visualización de cofres */}
+      {/* Grid de cofres */}
       {!loading && numbers.length > 0 && (
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-6 mt-4">
-          {numbers.map((num, idx) => {
-            const selected = result?.subset.includes(num);
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-8 mt-6">
+          {numbers.map((item) => {
+            const selected = result?.subset.includes(item.id);
 
             return (
               <motion.div
-                key={idx}
+                key={item.id}
                 whileHover={{ scale: 1.1 }}
                 className="flex flex-col items-center"
               >
-                <div
-                  className={`w-32 h-47 rounded-xl flex items-center justify-center ${
-                    selected
-                      ? "border-yellow-400 shadow-[0_0_20px_5px_gold]"
-                      : "border-gray-400"
-                  }`}
-                  style={{
-                    backgroundImage: selected
-                      ? "url('/subset_assets/chest_open.png')"
-                      : "url('/subset_assets/chest_closed.png')",
-                    backgroundSize: "cover",
-                    imageRendering: "pixelated",
-                  }}
-                ></div>
+                <div className="relative w-28 h-32 rounded-xl transition-all duration-300 overflow-visible">
+                  {/* Overlay dorado animado si está seleccionado */}
+                  {selected && (
+                    <motion.div
+                      initial={{ opacity: 0.7, scale: 1 }}
+                      animate={{
+                        opacity: [0.7, 1, 0.7],
+                        scale: [1, 1.08, 1],
+                      }}
+                      transition={{
+                        duration: 1.2,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      className="absolute inset-0 z-10 rounded-xl pointer-events-none"
+                      style={{
+                        background:
+                          "radial-gradient(circle at 50% 40%, rgba(255, 230, 80, 0.45) 0%, rgba(255, 215, 0, 0.25) 60%, rgba(255,215,0,0.0) 100%)",
+                        mixBlendMode: "screen",
+                        filter: "blur(1.5px)",
+                      }}
+                    />
+                  )}
+                  <div
+                    className="absolute inset-0 rounded-xl"
+                    style={{
+                      backgroundImage: selected
+                        ? "url('/subset_assets/chest_open.png')"
+                        : "url('/subset_assets/chest_closed.png')",
+                      backgroundSize: "contain",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center",
+                      imageRendering: "pixelated",
+                    }}
+                  />
+                </div>
 
-                <p className="mt-2 font-rpg text-lg">{num} de oro</p>
+                <p className="mt-2 font-rpg text-lg">{item.value} de oro</p>
               </motion.div>
             );
           })}
         </div>
       )}
 
-      {/* Resultado final */}
+      {/* Resultado */}
       {result && !loading && (
-        <div className="mt-8 bg-black/40 p-6 rounded-3xl border border-yellow-500 backdrop-blur-lg max-w-lg text-center">
+        <div className="mt-10 bg-black/40 p-6 rounded-3xl border border-yellow-500 backdrop-blur-lg max-w-lg text-center">
           {result.result ? (
             <h2 className="text-3xl text-yellow-300 font-rpg">
               🎉 ¡Tesoro Encontrado! 🎉
@@ -193,14 +238,34 @@ export default function SubsetSumRPG() {
           )}
 
           <p className="text-lg mt-2 font-rpg">
-            Tiempo de ejecución: {result.execution_time.toFixed(6)}s
+            Tiempo tardado en descubrirlo: {result.execution_time.toFixed(6)}s
           </p>
 
           {result.subset.length > 0 && (
             <p className="text-xl mt-3 font-rpg text-yellow-300">
-              Subset ganador: {result.subset.join(", ")}
+              Cofres seleccionados:{" "}
+              {result.subset
+                .map((id) => {
+                  const item = numbers.find((n) => n.id === id);
+                  return item ? item.value : "?";
+                })
+                .join(", ")}
             </p>
           )}
+
+          {/* Botón para probar de nuevo */}
+          <motion.button
+            onClick={() => {
+              setResult(null);
+              setArr("");
+              setTarget("");
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="mt-6 w-full py-3 bg-yellow-700 rounded-xl font-rpg text-xl shadow-lg border border-yellow-300"
+          >
+            Probar de nuevo
+          </motion.button>
         </div>
       )}
     </div>
