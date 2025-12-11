@@ -93,27 +93,27 @@ export default function SubsetSumRPG() {
       }}
     >
       {/* Título */}
-      <h1 className="text-2xl font-clash drop-shadow-lg mb-6 text-yellow-300">
+      <h1 className="text-3xl font-rpg drop-shadow-lg mb-6 text-white-300">
         Encuentra la combinación de cofres que suma el tesoro objetivo
       </h1>
 
       {/* Entrada de datos */}
       <div className="bg-black/40 p-6 rounded-3xl border border-yellow-600/50 backdrop-blur-lg shadow-xl max-w-lg w-full mb-6">
-        <label className="block mb-2 font-clash">
-          Lista de cofres (números):
+        <label className="block mb-2 font-rpg">
+           Oro en cada cofre (números):
         </label>
         <input
           type="text"
-          className="w-full px-4 py-2 rounded-xl bg-black/50 border border-yellow-500 text-white font-clash mb-4"
+          className="w-full px-4 py-2 rounded-xl bg-black/50 border border-yellow-500 text-white font-rpg mb-4"
           placeholder="Ej: 10, 7, 15, 3, 12"
           value={arr}
           onChange={(e) => setArr(e.target.value)}
         />
 
-        <label className="block mb-2 font-clash">Objetivo de oro:</label>
+        <label className="block mb-2 font-rpg">Objetivo de oro:</label>
         <input
           type="number"
-          className="w-full px-4 py-2 rounded-xl bg-black/50 border border-yellow-500 text-white font-clash"
+          className="w-full px-4 py-2 rounded-xl bg-black/50 border border-yellow-500 text-white font-rpg"
           placeholder="Ej: 25"
           value={target}
           onChange={(e) => setTarget(Number(e.target.value))}
@@ -124,7 +124,7 @@ export default function SubsetSumRPG() {
           onClick={ejecutarSubsetSum}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="mt-4 w-full py-3 bg-yellow-600 rounded-xl font-clash text-xl shadow-lg border border-yellow-300"
+          className="mt-4 w-full py-3 bg-yellow-600 rounded-xl font-rpg text-xl shadow-lg border border-yellow-300"
         >
           🪄 Buscar Tesoro
         </motion.button>
@@ -135,7 +135,7 @@ export default function SubsetSumRPG() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-center text-yellow-300 font-clash text-2xl"
+          className="text-center text-yellow-300 font-rpg text-2xl"
         >
           <img
             src="/subset_assets/loading.gif"
@@ -172,7 +172,7 @@ export default function SubsetSumRPG() {
                   }}
                 ></div>
 
-                <p className="mt-2 font-clash text-lg">{num} gold</p>
+                <p className="mt-2 font-rpg text-lg">{num} de oro</p>
               </motion.div>
             );
           })}
@@ -183,21 +183,21 @@ export default function SubsetSumRPG() {
       {result && !loading && (
         <div className="mt-8 bg-black/40 p-6 rounded-3xl border border-yellow-500 backdrop-blur-lg max-w-lg text-center">
           {result.result ? (
-            <h2 className="text-3xl text-yellow-300 font-clash">
+            <h2 className="text-3xl text-yellow-300 font-rpg">
               🎉 ¡Tesoro Encontrado! 🎉
             </h2>
           ) : (
-            <h2 className="text-3xl text-red-400 font-clash">
+            <h2 className="text-3xl text-red-400 font-rpg">
               ❌ No existe combinación exacta
             </h2>
           )}
 
-          <p className="text-lg mt-2 font-clash">
+          <p className="text-lg mt-2 font-rpg">
             Tiempo de ejecución: {result.execution_time.toFixed(6)}s
           </p>
 
           {result.subset.length > 0 && (
-            <p className="text-xl mt-3 font-clash text-yellow-300">
+            <p className="text-xl mt-3 font-rpg text-yellow-300">
               Subset ganador: {result.subset.join(", ")}
             </p>
           )}
