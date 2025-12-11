@@ -9,7 +9,7 @@ import timeit
 
 
 from algoritmos.knapsack import knapsack01 as knapsack01, greedy_knapsack
-from algoritmos.subset_sum import isSubsetSum
+from algoritmos.subset_sum import isSubsetSum, subset_sum_heuristic
 
 app = FastAPI()
 
@@ -65,10 +65,19 @@ class SubsetSumRequest(BaseModel):
     arr: list[int]
     sum: int
 
+# Algoritmo de la comunidad para subset sum
 @app.post("/subset_sum")
 async def run_subset_sum(req: SubsetSumRequest):
     start = timeit.default_timer()
     result = isSubsetSum(req.arr, req.sum)
+    end = timeit.default_timer()
+    return {"result": result, "execution_time": end - start}
+
+# Algoritmo aproximado para subset sum
+@app.post("/greedy_subset_sum")
+async def run_subset_sum_heuristic(req: SubsetSumRequest):
+    start = timeit.default_timer()
+    result = subset_sum_heuristic(req.arr, req.sum)
     end = timeit.default_timer()
     return {"result": result, "execution_time": end - start}
 
