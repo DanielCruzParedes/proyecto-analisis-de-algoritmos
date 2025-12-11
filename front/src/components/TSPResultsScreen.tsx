@@ -36,10 +36,7 @@ const cityIcons: { [key: number]: string } = {
 };
 
 const getCityIcon = (cityIndex: number): string => {
-  if (cityIndex < 15) {
-    return cityIcons[cityIndex];
-  }
-  return cityIcons[cityIndex - 15];
+  return cityIcons[cityIndex % 15];
 };
 
 interface TSPResultsScreenProps {
@@ -56,6 +53,7 @@ interface TSPResultsScreenProps {
   statusMessage?: string;
   onPlayAgain: () => void;
   onNewConfig: () => void;
+  onTryOtherAlgorithm: () => void;
 }
 
 export default function TSPResultsScreen({
@@ -72,6 +70,7 @@ export default function TSPResultsScreen({
   statusMessage: statusMessageFromBackend,
   onPlayAgain,
   onNewConfig,
+  onTryOtherAlgorithm,
 }: TSPResultsScreenProps) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [loadedImages, setLoadedImages] = React.useState<{ [key: number]: HTMLImageElement }>({});
@@ -79,7 +78,7 @@ export default function TSPResultsScreen({
   React.useEffect(() => {
     const loadImages = async () => {
       const images: { [key: number]: HTMLImageElement } = {};
-      const maxCities = Math.max(cities.length, 20);
+      const maxCities = Math.max(cities.length, 25);
       const loadPromises: Promise<void>[] = [];
       
       for (let i = 0; i < maxCities; i++) {
@@ -162,9 +161,12 @@ export default function TSPResultsScreen({
   };
 
   const difference = differenceFromBackend ?? (userDistance - optimalDistance);
-  const percentage = percentageFromBackend ?? Math.abs((difference / optimalDistance) * 100);
   const accuracyPercentage = optimalDistance > 0 ? (optimalDistance / userDistance) * 100 : 100;
   const statusMessage = statusMessageFromBackend ?? '';
+
+  const formatNumber = (num: number, decimals: number = 2): string => {
+    return num.toFixed(decimals).replace('.', ',');
+  };
 
 
   return (
@@ -245,7 +247,7 @@ export default function TSPResultsScreen({
               <div>
                 <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Distancia:</p>
                 <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent" style={{ fontFamily: "'Press Start 2P', cursive" }}>
-                  {userDistance.toFixed(2)} m
+                  {formatNumber(userDistance)} m
                 </p>
               </div>
             </div>
@@ -280,7 +282,7 @@ export default function TSPResultsScreen({
               <div>
                 <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Distancia:</p>
                 <p className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent" style={{ fontFamily: "'Press Start 2P', cursive" }}>
-                  {optimalDistance.toFixed(2)} m
+                  {formatNumber(optimalDistance)} m
                 </p>
               </div>
               <div>
@@ -288,7 +290,7 @@ export default function TSPResultsScreen({
                   Tiempo de calculo:
                 </p>
                 <p className="text-lg text-slate-300" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '10px' }}>
-                  {executionTime.toFixed(6)}s
+                  {formatNumber(executionTime, 6)}s
                 </p>
               </div>
               {toursReviewed !== undefined && (
@@ -306,13 +308,13 @@ export default function TSPResultsScreen({
               <div>
                 <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Porcentaje de Acierto:</p>
                 <p className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent" style={{ fontFamily: "'Press Start 2P', cursive" }}>
-                  {accuracyPercentage.toFixed(2)}%
+                  {formatNumber(accuracyPercentage)}%
                 </p>
               </div>
               <div className="mt-4">
                 <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Diferencia:</p>
                 <p className="text-lg font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent" style={{ fontFamily: "'Press Start 2P', cursive" }}>
-                  {Math.abs(difference).toFixed(2)} m de diferencia con la solucion optima
+                  {formatNumber(Math.abs(difference))} m de diferencia con la solucion optima
                 </p>
               </div>
               {statusMessage && (
@@ -358,8 +360,17 @@ export default function TSPResultsScreen({
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="flex gap-4 justify-center"
+          className="flex flex-wrap gap-4 justify-center"
         >
+          <motion.button
+            onClick={onTryOtherAlgorithm}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 hover:from-purple-400 hover:via-pink-400 hover:to-rose-400 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-purple-500/50 transition-all duration-300"
+            style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '12px' }}
+          >
+            Probar con {algorithm === 'tspalgoritm' ? 'Held-Karp' : 'Implementacion Propia'}
+          </motion.button>
           <motion.button
             onClick={onPlayAgain}
             whileHover={{ scale: 1.05 }}

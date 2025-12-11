@@ -6,7 +6,9 @@ def calcular_analisis_resultado(distancia_usuario, distancia_optima):
     diferencia = distancia_usuario - distancia_optima
     porcentaje = abs((diferencia / distancia_optima) * 100) if distancia_optima > 0 else 0
     
-    if porcentaje < 1:
+    if distancia_usuario < distancia_optima:
+        mensaje_estado = 'Le has ganado a la maquina'
+    elif porcentaje < 1:
         mensaje_estado = 'Perfecto'
     elif porcentaje < 5:
         mensaje_estado = 'Casi perfecto'
@@ -25,41 +27,46 @@ def calcular_analisis_resultado(distancia_usuario, distancia_optima):
 
 def tspalgoritm(distance_matrix, num_cities, user_distance=None):
     tiempo_inicio = time.perf_counter()
-    cantidad_tours_revisados = 0
     
     if num_cities < 2:
-        resultado_base = {
-            "tour": [0],
-            "distance": 0.0,
-            "time": 0.0,
-            "tours_reviewed": 0
-        }
+        resultado_base = {"tour": [0],"distance": 0.0, "time": 0.0,"tours_reviewed": 0}
         if user_distance is not None:
             analisis = calcular_analisis_resultado(user_distance, 0.0)
             resultado_base.update(analisis)
         return resultado_base
     
-    ciudades = list(range(num_cities))
+    mejor_distancia = float('inf')
+    mejor_tour = None
     
-    mejor_tour = []
-    mejor_distancia = float('inf')  
+    for start_city in range(num_cities):
+        visited = [False] * num_cities
+        route = [start_city]
+        visited[start_city] = True
+        total_distance = 0
+        current = start_city
+        
+        for _ in range(num_cities - 1):
+            ciudad_siguiente = None
+            min_distance = float('inf')
+            
+            for city in range(num_cities):
+                if not visited[city] and distance_matrix[current][city] < min_distance:
+                    min_distance = distance_matrix[current][city]
+                    ciudad_siguiente = city
+            
+            route.append(ciudad_siguiente)
+            total_distance += min_distance
+            visited[ciudad_siguiente] = True
+            current = ciudad_siguiente
+        
+        total_distance += distance_matrix[current][start_city]
+        route.append(start_city)
+        
+        if total_distance < mejor_distancia:
+            mejor_distancia = total_distance
+            mejor_tour = route
     
-    for tour in permutations(ciudades):
-        cantidad_tours_revisados += 1
-        
-        tour = list(tour)
-        tour_completo = tour + [tour[0]]
-        
-        distancia_total = 0
-        for i in range(len(tour_completo) - 1):
-            ciudad_actual = tour_completo[i]
-            ciudad_siguiente = tour_completo[i + 1]
-            distancia_total += distance_matrix[ciudad_actual][ciudad_siguiente]
-        
-        if distancia_total < mejor_distancia:
-            mejor_distancia = distancia_total
-            mejor_tour = tour_completo
-    
+    cantidad_tours_revisados = num_cities
     tiempo_fin = time.perf_counter()
     tiempo_ejecucion = tiempo_fin - tiempo_inicio
     

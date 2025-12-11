@@ -38,10 +38,7 @@ const cityIcons: { [key: number]: string } = {
 };
 
 const getCityIcon = (cityIndex: number): string => {
-  if (cityIndex < 15) {
-    return cityIcons[cityIndex];
-  }
-  return cityIcons[cityIndex - 15];
+  return cityIcons[cityIndex % 15];
 };
 
 interface TSPGameScreenProps {
@@ -72,7 +69,7 @@ export default function TSPGameScreen({
   useEffect(() => {
     const loadImages = async () => {
       const images: { [key: number]: HTMLImageElement } = {};
-      const maxCities = Math.max(numCities, 20);
+      const maxCities = Math.max(numCities, 25);
       const loadPromises: Promise<void>[] = [];
       
       for (let i = 0; i < maxCities; i++) {

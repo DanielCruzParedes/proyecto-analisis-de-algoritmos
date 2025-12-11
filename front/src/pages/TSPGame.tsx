@@ -116,6 +116,27 @@ export default function TSPGame() {
     setUserDistance(0);
   };
 
+  const handleTryOtherAlgorithm = async () => {
+    const otherAlgorithm = algorithm === 'tspalgoritm' ? 'accepted' : 'tspalgoritm';
+    setAlgorithm(otherAlgorithm);
+    setLoading(true);
+
+    try {
+      const result = await solveTSP({
+        distance_matrix: distanceMatrix,
+        num_cities: numCities,
+        algorithm: otherAlgorithm,
+        user_distance: userDistance,
+      });
+      setOptimalResult(result);
+    } catch (error) {
+      console.error('Error al resolver TSP:', error);
+      alert('Error al calcular la solución óptima');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center relative overflow-hidden">
@@ -277,6 +298,7 @@ export default function TSPGame() {
           statusMessage={optimalResult?.status_message}
           onPlayAgain={handlePlayAgain}
           onNewConfig={handleNewGame}
+          onTryOtherAlgorithm={handleTryOtherAlgorithm}
         />
       );
   }

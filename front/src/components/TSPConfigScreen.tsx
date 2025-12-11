@@ -10,7 +10,7 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
   const [algorithm, setAlgorithm] = useState<'tspalgoritm' | 'accepted'>('tspalgoritm');
 
   const handleStart = () => {
-    if (numCities >= 4 && numCities <= 20) {
+    if (numCities >= 4 && numCities <= 25) {
       onStart(numCities, algorithm);
     }
   };
@@ -82,17 +82,17 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
                 <input
                   type="range"
                   min="4"
-                  max="20"
+                  max="25"
                   value={numCities}
                   onChange={(e) => setNumCities(parseInt(e.target.value))}
                   className="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500"
                   style={{
-                    background: `linear-gradient(to right, #06b6d4 0%, #06b6d4 ${((numCities - 4) / 16) * 100}%, #475569 ${((numCities - 4) / 16) * 100}%, #475569 100%)`
+                    background: `linear-gradient(to right, #06b6d4 0%, #06b6d4 ${((numCities - 4) / 21) * 100}%, #475569 ${((numCities - 4) / 21) * 100}%, #475569 100%)`
                   }}
                 />
                 <div className="flex justify-between text-xs text-slate-400 mt-1">
                   <span>4</span>
-                  <span>20</span>
+                  <span>25</span>
                 </div>
               </div>
               <div className="text-center">
@@ -123,6 +123,7 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
                     }`}
                   >
                     <div className="text-white font-bold text-sm" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Implementacion Propia</div>
+                    <div className="text-cyan-300 text-xs mt-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '7px' }}>(Aproximada)</div>
                   </button>
                   <button
                     onClick={() => setAlgorithm('accepted')}
@@ -148,7 +149,7 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
           >
             <motion.button
               onClick={handleStart}
-              disabled={numCities < 4 || numCities > 20}
+              disabled={numCities < 4 || numCities > 25}
               whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(6, 182, 212, 0.6)" }}
               whileTap={{ scale: 0.95 }}
               className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 hover:from-cyan-400 hover:via-blue-400 hover:to-purple-400 disabled:from-slate-600 disabled:to-slate-700 disabled:cursor-not-allowed text-white font-bold py-6 px-16 rounded-xl text-xl shadow-lg shadow-cyan-500/50 transition-all duration-300 relative overflow-hidden whitespace-nowrap"

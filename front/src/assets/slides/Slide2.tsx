@@ -26,6 +26,7 @@ export default function Slide2() {
           }}
           transition={{ duration: 1.2, type: "spring", stiffness: 100 }}
           className="mt-20 text-7xl text-white font-extrabold tracking-wide text-center"
+          style={{ fontFamily: "'Press Start 2P', cursive" }}
         >
           TSP Challenge
         </motion.h1>
@@ -37,6 +38,7 @@ export default function Slide2() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.5, delay: 0.3 }}
             className="text-3xl max-w-3xl mt-12 leading-relaxed text-white drop-shadow-[0_0_12px_rgba(0,255,255,0.8)]"
+            style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '16px' }}
           >
             Problema del Agente Viajero
           </motion.p>
@@ -45,6 +47,7 @@ export default function Slide2() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.5, delay: 0.3 }}
             className="text-3xl max-w-3xl mt-12 leading-relaxed text-white drop-shadow-[0_0_12px_rgba(0,255,255,0.8)]"
+            style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '16px' }}
           >
            Compara tu camino contra la maquina
           </motion.p>
@@ -67,6 +70,7 @@ export default function Slide2() {
               shadow-lg shadow-cyan-500/50
               hover:brightness-125
             "
+            style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '16px' }}
           >
             Entrar
           </motion.button>
