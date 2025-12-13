@@ -6,10 +6,9 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import timeit 
-
-
 from algoritmos.knapsack import knapsack01 as knapsack01, greedy_knapsack
 from algoritmos.subset_sum import isSubsetSum, subset_sum_heuristic
+from algoritmos.tsp import tspalgoritm, held_karp_tsp
 
 app = FastAPI()
 
@@ -35,7 +34,6 @@ async def hello_world():
 
 
 # Aqui se agregan las rutas
-
 @app.post("/knapsack01")
 async def run_knapsack01(req: KnapsackRequest):
     names = [c.name for c in req.cards]
@@ -80,6 +78,26 @@ async def run_subset_sum_heuristic(req: SubsetSumRequest):
     result = subset_sum_heuristic(req.arr, req.sum)
     end = timeit.default_timer()
     return {"result": result, "execution_time": end - start}
+
+class TSPRequest(BaseModel):
+    distance_matrix: List[List[float]]
+    num_cities: int
+    algorithm: str
+    user_distance: float = None
+
+@app.post("/api/tsp/solve")
+async def solve_tsp(request: TSPRequest):
+    try:
+        if request.algorithm == "tspalgoritm":
+            result = tspalgoritm(request.distance_matrix, request.num_cities, request.user_distance)
+        elif request.algorithm == "accepted" or request.algorithm == "held_karp":
+            result = held_karp_tsp(request.distance_matrix, request.num_cities, request.user_distance)
+        else:
+            return {"error": "Algoritmo no válido"}
+        
+        return result
+    except Exception as e:
+        return {"error": str(e)}
 
 
 

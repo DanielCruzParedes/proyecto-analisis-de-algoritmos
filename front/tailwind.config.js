@@ -5,7 +5,8 @@ export default {
     extend: {
       fontFamily: {
         clash: ["clash", "sans-serif"],
-        rpg: ["rpg", "sans-serif"]
+        rpg: ["rpg", "sans-serif"],
+        pressstart: ["Press Start 2P", "cursive"],
       },
     },
   },
