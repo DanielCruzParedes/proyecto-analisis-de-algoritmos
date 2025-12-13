@@ -1,9 +1,15 @@
 # correr < pip install fastapi uvicorn > para instalar las dependencias necesarias
 # Para correr el servidor, usa el siguiente comando: < uvicorn main:app --reload >
 
+from typing import List
 from fastapi import FastAPI
-from algoritmos.knapsack import knapsack_exact, knapsack_greedy
+from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+import timeit 
+
+
+from algoritmos.knapsack import knapsack01 as knapsack01, greedy_knapsack
+from algoritmos.subset_sum import isSubsetSum, subset_sum_heuristic
 
 app = FastAPI()
 
@@ -14,12 +20,66 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+class Card(BaseModel):
+    name: str
+    elixir: int      # weight
+    use: int     # value
+    
+class KnapsackRequest(BaseModel):
+    max_elixir: int
+    cards: List[Card]
 
 @app.get("/")
 async def hello_world():
     return {"message": "Hello, World!"}
 
+
 # Aqui se agregan las rutas
+
+@app.post("/knapsack01")
+async def run_knapsack01(req: KnapsackRequest):
+    names = [c.name for c in req.cards]
+    values = [c.use for c in req.cards]
+    weights = [c.elixir for c in req.cards]
+    start = timeit.default_timer()
+    result = knapsack01(req.max_elixir, values, weights, names)
+    end = timeit.default_timer()
+    result["execution_time"] = end - start
+    return result
+
+
+# Nueva ruta para el algoritmo greedy_knapsack
+@app.post("/greedy_knapsack")
+async def run_greedy_knapsack(req: KnapsackRequest):
+    names = [c.name for c in req.cards]
+    values = [c.use for c in req.cards]
+    weights = [c.elixir for c in req.cards]
+    start = timeit.default_timer()
+    result = greedy_knapsack(req.max_elixir, values, weights, names)
+    end = timeit.default_timer()
+    result["execution_time"] = end - start
+    return result
+
+# Ruta para el algoritmo subset_sum
+class SubsetSumRequest(BaseModel):
+    arr: list[int]
+    sum: int
+
+# Algoritmo de la comunidad para subset sum
+@app.post("/subset_sum")
+async def run_subset_sum(req: SubsetSumRequest):
+    start = timeit.default_timer()
+    result = isSubsetSum(req.arr, req.sum)
+    end = timeit.default_timer()
+    return {"result": result, "execution_time": end - start}
+
+# Algoritmo aproximado para subset sum
+@app.post("/greedy_subset_sum")
+async def run_subset_sum_heuristic(req: SubsetSumRequest):
+    start = timeit.default_timer()
+    result = subset_sum_heuristic(req.arr, req.sum)
+    end = timeit.default_timer()
+    return {"result": result, "execution_time": end - start}
 
 
 

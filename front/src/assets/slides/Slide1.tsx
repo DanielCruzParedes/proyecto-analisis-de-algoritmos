@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export default function Slide1() {
+  const navigate = useNavigate();
   return (
     <div className="absolute inset-0 overflow-hidden">
       <motion.div
@@ -8,26 +10,27 @@ export default function Slide1() {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
         className="absolute inset-0 bg-cover bg-center z-0 filter brightness-90"
-        style={{ backgroundImage: "url(/src/assets/algoritmo1.jpg)" }}
+        style={{
+          backgroundImage: "url(/knapsack_assets/background_slide1.jpg)",
+        }}
       />
 
       <div className="absolute inset-0 bg-linear-to-b from-black/80 via-black/60 to-black/90 z-10" />
 
       {/* Contenido */}
       <div className="relative z-20 flex flex-col items-center h-full px-6">
-        {/* Título*/}
-        <motion.h1
-          initial={{ y: -80, opacity: 0, textShadow: "0 0 0px #00f" }}
+        <motion.img
+          initial={{ y: -80, opacity: 0, filter: "drop-shadow(0 0 0px #000)" }}
           animate={{
-            y: 0,
+            y: -30,
             opacity: 1,
-            textShadow: "0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff",
+            filter: "drop-shadow(0 2px 8px #000)",
           }}
           transition={{ duration: 1.2, type: "spring", stiffness: 100 }}
-          className="mt-20 text-7xl text-white font-extrabold tracking-wide text-center"
-        >
-          Knapsack Royale
-        </motion.h1>
+          src="/knapsack_assets/knapsack_royale_title.png"
+          alt="Knapsack Royale"
+          className="mt-20 max-w-2xl w-full h-auto mx-auto"
+        />
 
         {/* Descripción */}
         <div className="flex flex-col items-center justify-center grow text-center">
@@ -35,9 +38,9 @@ export default function Slide1() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.5, delay: 0.3 }}
-            className="text-3xl max-w-3xl mt-12 leading-relaxed text-white drop-shadow-[0_0_12px_rgba(0,255,255,0.8)]"
+            className="text-3xl font-clash max-w-3xl mt-1 leading-relaxed text-white drop-shadow-[0_0_12px_rgba(0,0,0,0.8)]"
           >
-            Descripcion del algoritmo 1
+            Generador de mazos basado en el porcentaje de uso de las cartas.
           </motion.p>
 
           {/* Botón */}
@@ -48,16 +51,16 @@ export default function Slide1() {
             whileHover={{
               scale: 1.05,
               y: -4,
-              boxShadow: "0 0 25px #0ff, 0 0 50px #0ff",
+              boxShadow: "0 0 25px #000, 0 0 50px #000",
             }}
-            onClick={() => (window.location.href = "/knapsack")}
+            onClick={() => (navigate("/knapsack"), window.scrollTo(0, 0))}
             className="
-              mt-14 px-16 py-5 text-2xl font-bold rounded-full 
-              bg-linear-to-r from-cyan-500 to-blue-600
-              border-2 border-cyan-400 text-white
-              shadow-lg shadow-cyan-500/50
-              hover:brightness-125
-            "
+          mt-6 px-16 py-5 text-2xl font-bold rounded-full 
+          bg-linear-to-r from-cyan-500 to-blue-600
+          border-2 border-cyan-400 text-white
+          shadow-lg shadow-cyan-500/50
+          hover:brightness-125 font-clash
+        "
           >
             Entrar
           </motion.button>
