@@ -48,14 +48,14 @@ export default function Slide3() {
             whileHover={{
               scale: 1.08,
               y: -6,
-              boxShadow: "0 0 32px #0ff, 0 0 64px #0ff",
-              rotate: [0, -2, 2, -2, 2, 0], // efecto de vibración
+              boxShadow: "0 0 32px #fde047, 0 0 64px #fde047",
+              rotate: [0, -2, 2, -2, 2, 0],
               transition: { duration: 0.3, repeat: 1, repeatType: "reverse" },
             }}
             whileTap={{
               scale: 0.97,
               rotate: [0, 2, -2, 2, -2, 0],
-              boxShadow: "0 0 16px #0ff, 0 0 32px #0ff",
+              boxShadow: "0 0 16px #fde047, 0 0 32px #fde047", 
             }}
             onClick={() => navigate("/subset")}
             className="
@@ -72,6 +72,7 @@ export default function Slide3() {
             style={{
               textTransform: "uppercase",
               letterSpacing: "0.15em",
+              boxShadow: "0 0 32px #fde047, 0 0 64px #fde047", 
             }}
             >
             ▶ Entrar ◀
