@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { cards } from "../../../knapsack_assets/cards.tsx";
 import CardsGrid from "./CardsGrid.tsx";
+import { useEffect } from "react";
 
 const ALGORITHMS = [
   {
@@ -15,6 +16,30 @@ const ALGORITHMS = [
 ];
 
 export default function KnapsackVisual() {
+  // Reproduce música de fondo todo el tiempo
+  const bgMusic = useRef<HTMLAudioElement | null>(null);
+  const buttonTap = useRef<HTMLAudioElement | null>(null);
+
+  // Iniciar la música de fondo al montar el componente
+  // y pausarla al desmontar
+  useEffect(() => {
+    if (!bgMusic.current) {
+      bgMusic.current = new Audio("/sounds/Clash_royale_bgmusic.mp3");
+      bgMusic.current.loop = true;
+      bgMusic.current.volume = 0.3;
+    }
+    const playMusic = () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      bgMusic.current && bgMusic.current.play().catch(() => {});
+    };
+    playMusic();
+
+    return () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      bgMusic.current && bgMusic.current.pause();
+    };
+  }, []);
+
   const [elixir, setElixir] = useState<number | "">("");
   const [resultado, setResultado] = useState<null | {
     max_value: number;
@@ -41,6 +66,16 @@ export default function KnapsackVisual() {
   }
 
   const handleSubmit = async () => {
+    // Reproducir sonido de tap al hacer click
+    if (!buttonTap.current) {
+      buttonTap.current = new Audio("/sounds/clash_royale_tap_button.mp3");
+      buttonTap.current.volume = 0.7;
+    }
+    // Reiniciar el audio si ya está sonando
+    if (buttonTap.current) {
+      buttonTap.current.currentTime = 0;
+      buttonTap.current.play().catch(() => {});
+    }
     if (elixir === "" || elixir <= 0) return alert("Ingresa un número válido");
     const data = await ejecutarAlgoritmo(elixir as number, algoritmo);
     setResultado(data);
