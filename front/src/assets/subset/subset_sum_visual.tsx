@@ -1,7 +1,18 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useRef, useEffect } from "react";
 
 export default function SubsetSumRPG() {
+  const clickSound = useRef<HTMLAudioElement | null>(null);
+  const failSound = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    clickSound.current = new Audio("/sounds/Zelda_open_chest.mp3");
+    clickSound.current.volume = 0.6;
+    failSound.current = new Audio("/sounds/Combination_not_found.mp3");
+    failSound.current.volume = 0.6;
+  }, []);
+
   const [arr, setArr] = useState<string>("");
   const [target, setTarget] = useState<number | "">("");
   const [loading, setLoading] = useState(false);
@@ -43,6 +54,7 @@ export default function SubsetSumRPG() {
     const subsetDP = obtenerSubconjunto(numberObjects, Number(target));
     const subsetDPIds = mapValuesToIds(subsetDP);
 
+    // Guardar resultado DP
     setResultDP({
       result: resDP.result,
       subset: subsetDPIds,
@@ -58,11 +70,28 @@ export default function SubsetSumRPG() {
 
     const subsetGreedyIds = mapValuesToIds(resGreedy.result.subset);
 
+    // Guardar resultado Greedy
     setResultGreedy({
       result: resGreedy.result.exact,
       subset: subsetGreedyIds,
       execution_time: resGreedy.execution_time,
     });
+
+    // Reproducir sonido según el resultado
+    if (
+      (resDP.result === true || resGreedy.result.exact === true) &&
+      clickSound.current
+    ) {
+      clickSound.current.currentTime = 0;
+      clickSound.current.play();
+    } else if (
+      resDP.result === false &&
+      resGreedy.result.exact === false &&
+      failSound.current
+    ) {
+      failSound.current.currentTime = 0;
+      failSound.current.play();
+    }
 
     setLoading(false);
   }
@@ -142,7 +171,7 @@ export default function SubsetSumRPG() {
       }}
     >
       <h1 className="text-4xl font-rpg drop-shadow-lg mb-8 text-yellow-300">
-      Obtener combinación de cofres con suma objetivo
+        Obtener combinación de cofres con suma objetivo
       </h1>
 
       {/* Entrada */}
@@ -204,7 +233,7 @@ export default function SubsetSumRPG() {
           {/* Panel DP */}
           <ResultPanel
             title="Algoritmo aceptado por la comunidad"
-            color="blue"
+            color="green"
             result={resultDP}
             numbers={numbers}
           />
