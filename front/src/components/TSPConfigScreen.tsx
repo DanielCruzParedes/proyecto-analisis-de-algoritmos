@@ -58,10 +58,10 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
           transition={{ delay: 0.2 }}
           className="text-center mb-12"
         >
-          <h1 className="text-5xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent mb-2 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+          <h1 className="text-5xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent mb-2 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] font-pressstart">
             TSP Challenge
           </h1>
-          <p className="text-cyan-300 text-lg font-medium" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+          <p className="text-cyan-300 text-lg font-medium font-pressstart">
             Configura tu partida
           </p>
         </motion.div>
@@ -75,7 +75,7 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
               transition={{ delay: 0.3 }}
               className="flex-1 space-y-3"
             >
-              <label className="block text-cyan-300 font-semibold text-lg mb-3" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '10px' }}>
+              <label className="block text-cyan-300 font-semibold text-lg mb-3 font-pressstart text-xs">
                 Cantidad de Ciudades
               </label>
               <div className="relative">
@@ -96,7 +96,7 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
                 </div>
               </div>
               <div className="text-center">
-                <span className="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold text-3xl px-6 py-3 rounded-xl shadow-lg shadow-cyan-500/50 min-w-[80px]" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+                <span className="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold text-3xl px-6 py-3 rounded-xl shadow-lg shadow-cyan-500/50 min-w-[80px] font-pressstart">
                   {numCities}
                 </span>
               </div>
@@ -109,7 +109,7 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
               transition={{ delay: 0.4 }}
               className="flex-1 space-y-3"
             >
-              <label className="block text-cyan-300 font-semibold text-lg mb-3" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '10px' }}>
+              <label className="block text-cyan-300 font-semibold text-lg mb-3 font-pressstart text-xs">
                 Algoritmo
               </label>
               <div className="space-y-3">
@@ -122,8 +122,8 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
                         : 'border-slate-600 bg-slate-700/50 hover:border-slate-500'
                     }`}
                   >
-                    <div className="text-white font-bold text-sm" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Implementacion Propia</div>
-                    <div className="text-cyan-300 text-xs mt-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '7px' }}>(Aproximada)</div>
+                    <div className="text-white font-bold text-sm font-pressstart text-[8px]">Implementacion Propia</div>
+                    <div className="text-cyan-300 text-xs mt-1 font-pressstart text-[7px]">(Aproximada)</div>
                   </button>
                   <button
                     onClick={() => setAlgorithm('accepted')}
@@ -133,8 +133,8 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
                         : 'border-slate-600 bg-slate-700/50 hover:border-slate-500'
                     }`}
                   >
-                    <div className="text-white font-bold text-sm" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Held-Karp</div>
-                    <div className="text-cyan-300 text-xs mt-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '7px' }}>Aceptado por la comunidad</div>
+                    <div className="text-white font-bold text-sm font-pressstart text-[8px]">Held-Karp</div>
+                    <div className="text-cyan-300 text-xs mt-1 font-pressstart text-[7px]">Aceptado por la comunidad</div>
                   </button>
                 </div>
               </div>
@@ -154,7 +154,7 @@ export default function TSPConfigScreen({ onStart }: TSPConfigScreenProps) {
               whileTap={{ scale: 0.95 }}
               className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 hover:from-cyan-400 hover:via-blue-400 hover:to-purple-400 disabled:from-slate-600 disabled:to-slate-700 disabled:cursor-not-allowed text-white font-bold py-6 px-16 rounded-xl text-xl shadow-lg shadow-cyan-500/50 transition-all duration-300 relative overflow-hidden whitespace-nowrap"
             >
-              <span className="relative z-10" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '16px' }}>
+              <span className="relative z-10 font-pressstart text-base">
                 Iniciar Juego
               </span>
               <motion.div

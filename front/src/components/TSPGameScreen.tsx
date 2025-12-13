@@ -303,7 +303,7 @@ export default function TSPGameScreen({
             animate={{ opacity: 1, scale: 1 }}
             className="bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-6 border border-cyan-500/30"
           >
-            <h2 className="text-center mb-4 text-cyan-300" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '14px' }}>
+            <h2 className="text-center mb-4 text-cyan-300 font-pressstart text-sm">
               TSP Challenge
             </h2>
             <canvas
@@ -323,7 +323,7 @@ export default function TSPGameScreen({
 
       <div className="w-80 bg-slate-800/90 backdrop-blur-xl border-l border-cyan-500/30 p-6 space-y-6 flex flex-col relative z-10">
         <div>
-          <h3 className="text-cyan-300 font-semibold mb-2" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '10px' }}>
+          <h3 className="text-cyan-300 font-semibold mb-2 font-pressstart text-xs">
             Ruta Actual
           </h3>
           <div className="flex flex-wrap items-center gap-2 bg-slate-900/50 p-2 rounded min-h-[60px]">
@@ -369,19 +369,19 @@ export default function TSPGameScreen({
         </div>
 
         <div>
-          <h3 className="text-cyan-300 font-semibold mb-2" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '10px' }}>
+          <h3 className="text-cyan-300 font-semibold mb-2 font-pressstart text-xs">
             Distancia Actual
           </h3>
-          <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+          <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent font-pressstart">
             {currentDistance.toFixed(2)} m
           </p>
         </div>
 
         <div>
-          <h3 className="text-cyan-300 font-semibold mb-2" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '10px' }}>
+          <h3 className="text-cyan-300 font-semibold mb-2 font-pressstart text-xs">
             Ciudades Visitadas
           </h3>
-          <p className="text-2xl text-slate-300 font-bold" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+          <p className="text-2xl text-slate-300 font-bold font-pressstart">
             {visitedCities.size} / {numCities}
           </p>
         </div>
@@ -392,8 +392,7 @@ export default function TSPGameScreen({
             disabled={visitedCities.size !== numCities}
             whileHover={visitedCities.size === numCities ? { scale: 1.05 } : {}}
             whileTap={visitedCities.size === numCities ? { scale: 0.95 } : {}}
-            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 disabled:from-slate-600 disabled:to-slate-700 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-green-500/50 disabled:shadow-none"
-            style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '10px' }}
+            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 disabled:from-slate-600 disabled:to-slate-700 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-green-500/50 disabled:shadow-none font-pressstart text-xs"
           >
             Terminar Ruta
           </motion.button>
@@ -402,8 +401,7 @@ export default function TSPGameScreen({
             onClick={handleReset}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-yellow-500/50"
-            style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '10px' }}
+            className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-yellow-500/50 font-pressstart text-xs"
           >
             Reiniciar Ruta
           </motion.button>
@@ -412,8 +410,7 @@ export default function TSPGameScreen({
             onClick={onNewGame}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="w-full bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600 text-white font-bold py-3 px-4 rounded-xl transition-all"
-            style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '10px' }}
+            className="w-full bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600 text-white font-bold py-3 px-4 rounded-xl transition-all font-pressstart text-xs"
           >
             Nueva Partida
           </motion.button>

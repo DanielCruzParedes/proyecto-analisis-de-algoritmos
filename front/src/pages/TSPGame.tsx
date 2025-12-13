@@ -256,10 +256,10 @@ export default function TSPGame() {
                 />
               </svg>
             </div>
-            <p className="text-cyan-300 text-lg" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '12px' }}>
+            <p className="text-cyan-300 text-lg font-pressstart text-xs">
               Calculando recorrido
             </p>
-            <p className="text-cyan-300 text-lg" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '12px' }}>
+            <p className="text-cyan-300 text-lg font-pressstart text-xs">
               Si pusiste mas de 12 ciudades pues tene paciencia
             </p>
           </div>

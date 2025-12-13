@@ -205,7 +205,7 @@ export default function TSPResultsScreen({
           transition={{ duration: 0.5 }}
           className="text-center mb-8"
         >
-          <h1 className="text-5xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent mb-2 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+          <h1 className="text-5xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent mb-2 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] font-pressstart">
             Resultados
           </h1>
         </motion.div>
@@ -218,11 +218,11 @@ export default function TSPResultsScreen({
             className="bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-6 border border-cyan-500/30 space-y-6"
           >
             <div className="border-2 border-cyan-500/30 rounded-xl p-4 space-y-4 bg-slate-900/50">
-              <h2 className="text-cyan-300 font-semibold mb-2" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '12px' }}>
+              <h2 className="text-cyan-300 font-semibold mb-2 font-pressstart text-xs">
                 Tu Camino
               </h2>
               <div>
-                <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Ruta:</p>
+                <p className="text-slate-400 text-xs mb-1 font-pressstart text-[8px]">Ruta:</p>
                 <div className="flex flex-wrap items-center gap-2 bg-slate-900/50 p-2 rounded">
                   <span className="text-slate-300">[</span>
                   {userTour.map((cityIndex, idx) => (
@@ -245,19 +245,19 @@ export default function TSPResultsScreen({
                 </div>
               </div>
               <div>
-                <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Distancia:</p>
-                <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+                <p className="text-slate-400 text-xs mb-1 font-pressstart text-[8px]">Distancia:</p>
+                <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent font-pressstart">
                   {formatNumber(userDistance)} m
                 </p>
               </div>
             </div>
 
             <div className="border-2 border-green-500/30 rounded-xl p-4 space-y-4 bg-slate-900/50">
-              <h2 className="text-green-300 font-semibold mb-2" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '12px' }}>
+              <h2 className="text-green-300 font-semibold mb-2 font-pressstart text-xs">
                 {algorithm === 'accepted' ? 'Held-Karp Algorithm' : 'Solucion Optima'}
               </h2>
               <div>
-                <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Ruta:</p>
+                <p className="text-slate-400 text-xs mb-1 font-pressstart text-[8px]">Ruta:</p>
                 <div className="flex flex-wrap items-center gap-2 bg-slate-900/50 p-2 rounded">
                   <span className="text-slate-300">[</span>
                   {optimalTour.map((cityIndex, idx) => (
@@ -280,46 +280,46 @@ export default function TSPResultsScreen({
                 </div>
               </div>
               <div>
-                <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Distancia:</p>
-                <p className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+                <p className="text-slate-400 text-xs mb-1 font-pressstart text-[8px]">Distancia:</p>
+                <p className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent font-pressstart">
                   {formatNumber(optimalDistance)} m
                 </p>
               </div>
               <div>
-                <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>
+                <p className="text-slate-400 text-xs mb-1 font-pressstart text-[8px]">
                   Tiempo de calculo:
                 </p>
-                <p className="text-lg text-slate-300" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '10px' }}>
+                <p className="text-lg text-slate-300 font-pressstart text-[10px]">
                   {formatNumber(executionTime, 6)}s
                 </p>
               </div>
               {toursReviewed !== undefined && (
                 <div>
-                  <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Tours revisados:</p>
-                  <p className="text-lg text-slate-300" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '10px' }}>{toursReviewed}</p>
+                  <p className="text-slate-400 text-xs mb-1 font-pressstart text-[8px]">Tours revisados:</p>
+                  <p className="text-lg text-slate-300 font-pressstart text-[10px]">{toursReviewed}</p>
                 </div>
               )}
             </div>
 
             <div className="border-2 border-purple-500/30 rounded-xl p-4 bg-slate-900/50">
-              <h2 className="text-purple-300 font-semibold mb-4" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '12px' }}>
+              <h2 className="text-purple-300 font-semibold mb-4 font-pressstart text-xs">
                 Analisis
               </h2>
               <div>
-                <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Porcentaje de Acierto:</p>
-                <p className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+                <p className="text-slate-400 text-xs mb-1 font-pressstart text-[8px]">Porcentaje de Acierto:</p>
+                <p className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent font-pressstart">
                   {formatNumber(accuracyPercentage)}%
                 </p>
               </div>
               <div className="mt-4">
-                <p className="text-slate-400 text-xs mb-1" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>Diferencia:</p>
-                <p className="text-lg font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+                <p className="text-slate-400 text-xs mb-1 font-pressstart text-[8px]">Diferencia:</p>
+                <p className="text-lg font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent font-pressstart">
                   {formatNumber(Math.abs(difference))} m de diferencia con la solucion optima
                 </p>
               </div>
               {statusMessage && (
                 <div className="mt-4">
-                  <p className="text-sm font-semibold text-cyan-300" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>
+                  <p className="text-sm font-semibold text-cyan-300 font-pressstart text-[8px]">
                     {statusMessage}
                   </p>
                 </div>
@@ -333,10 +333,10 @@ export default function TSPResultsScreen({
             transition={{ delay: 0.3 }}
             className="bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-6 border border-cyan-500/30"
           >
-            <h3 className="text-cyan-300 font-semibold mb-4" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '12px' }}>
+            <h3 className="text-cyan-300 font-semibold mb-4 font-pressstart text-xs">
               Visualizacion
             </h3>
-            <div className="mb-4 text-xs text-slate-300 space-y-2" style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '8px' }}>
+            <div className="mb-4 text-xs text-slate-300 space-y-2 font-pressstart text-[8px]">
               <p>
                 <span className="inline-block w-4 h-4 bg-cyan-500 mr-2 rounded"></span>
                 Tu ruta
@@ -366,8 +366,7 @@ export default function TSPResultsScreen({
             onClick={onTryOtherAlgorithm}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 hover:from-purple-400 hover:via-pink-400 hover:to-rose-400 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-purple-500/50 transition-all duration-300"
-            style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '12px' }}
+            className="bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 hover:from-purple-400 hover:via-pink-400 hover:to-rose-400 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-purple-500/50 transition-all duration-300 font-pressstart text-xs"
           >
             Probar con {algorithm === 'tspalgoritm' ? 'Held-Karp' : 'Implementacion Propia'}
           </motion.button>
@@ -375,8 +374,7 @@ export default function TSPResultsScreen({
             onClick={onPlayAgain}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 hover:from-cyan-400 hover:via-blue-400 hover:to-purple-400 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-cyan-500/50 transition-all duration-300"
-            style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '12px' }}
+            className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 hover:from-cyan-400 hover:via-blue-400 hover:to-purple-400 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-cyan-500/50 transition-all duration-300 font-pressstart text-xs"
           >
             Jugar de Nuevo
           </motion.button>
@@ -384,8 +382,7 @@ export default function TSPResultsScreen({
             onClick={onNewConfig}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600 text-white font-bold py-4 px-8 rounded-xl transition-all"
-            style={{ fontFamily: "'Press Start 2P', cursive", fontSize: '12px' }}
+            className="bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600 text-white font-bold py-4 px-8 rounded-xl transition-all font-pressstart text-xs"
           >
             Cambiar Configuracion
           </motion.button>
