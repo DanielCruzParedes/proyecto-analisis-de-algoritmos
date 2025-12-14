@@ -109,7 +109,7 @@ Un juego interactivo para el **problema del Viajante (TSP)**.
     ```
     El backend estará disponible en http://127.0.0.1:8000.
 
-### Condiguración del Frontend
+### Configuración del Frontend
 
 1.  Navegar al directorio front:
     ```bash
